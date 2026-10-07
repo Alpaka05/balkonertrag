@@ -1,0 +1,41 @@
+# Ziel: 200 € pro Monat
+
+Gestartet am 07.10.2026. Ziel: dauerhaft 200 € Einnahmen pro Monat.
+
+## Strategie
+
+**Balkonertrag**: eine kostenlose Website mit echten Ertragsdaten für Balkonkraftwerke in ~950 deutschen Städten
+(PVGIS-Daten der EU-Kommission), dazu Rechner und Ratgeber. Geld kommt über Partnerlinks (Amazon, später
+Fachhändler mit 5–8 % Provision) und später Werbung.
+
+Warum dieses Thema:
+- Hohe Suchnachfrage in Deutschland („Balkonkraftwerk Ertrag [Stadt]“, „lohnt sich“, „anmelden“, „Speicher“).
+- Teure Produkte (300–1.500 €): Eine Provision bringt 10–60 €, für 200 € reichen also ~10 Verkäufe im Monat.
+- Echte, ortsgenaue Daten statt Textwüste: Jede Stadtseite hat eigene Messwerte. Das können Konkurrenten mit Fließtext nicht.
+- Komplett statisch, kostet 0 € Betrieb (GitHub Pages).
+
+Rechnung: ~15.000 Besucher/Monat × 3 % Klick auf Partnerlink × 5 % Kaufquote × 40 € Provision ≈ 900 €. Selbst bei
+einem Viertel davon ist das Ziel erreicht. Realistische Zeit bis dahin: 4–9 Monate (Google braucht Zeit).
+
+## Was nur du machen kannst (einmalig, zusammen ca. 30 Minuten)
+
+1. **Impressum-Daten** in `scripts/config.py` → `IMPRESSUM` eintragen (Name, Anschrift, E-Mail). Pflicht, sobald Partnerlinks aktiv sind.
+2. **Amazon PartnerNet** anmelden (partnernet.amazon.de), den Tag (z. B. `balkonertrag-21`) in `config.py` → `AMAZON_TAG` eintragen.
+   Danach `python3 scripts/build.py` und pushen, oder einfach mir Bescheid geben.
+3. **Google Search Console**: Eigentum der Seite bestätigen und `sitemap.xml` einreichen. Beschleunigt die Indexierung enorm.
+4. Optional: **eigene Domain** (z. B. balkonertrag.de, ~10 €/Jahr). Wirkt seriöser und rankt besser als github.io.
+
+Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität, Bank-/Steuerdaten oder Zahlungen.
+
+## Fortschritt
+
+| Datum | Stand |
+|---|---|
+| 07.10.2026 | Projekt angelegt, Daten für ~950 Städte, Generator, Rechner, 5 Ratgeber-Artikel, Veröffentlichung auf GitHub Pages |
+
+## Nächste Ausbaustufen
+
+- Förderprogramme pro Stadt/Bundesland (sehr gefragt: „Balkonkraftwerk Förderung [Stadt]“)
+- Mehr Ratgeber: Halterungen, Verschattung, Ost-West, Winterertrag, Versicherung, 2000-Wp-Sets
+- Vergleichsseiten für Speicher und Sets (dort sind die Provisionen am höchsten)
+- Weitere Rechner-Seiten mit eigenen Suchbegriffen (Wärmepumpe, Stromkosten Geräte, PV-Dach)

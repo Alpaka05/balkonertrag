@@ -15,6 +15,6 @@ body = json.dumps({
     "keyLocation": f"{C.SITE_URL}/{C.INDEXNOW_KEY}.txt",
     "urlList": urls,
 }).encode()
-req = urllib.request.Request("https://api.indexnow.org/indexnow", body, {"Content-Type": "application/json; charset=utf-8"})
+req = urllib.request.Request("https://www.bing.com/indexnow", body, {"Content-Type": "application/json; charset=utf-8"})
 with urllib.request.urlopen(req, timeout=60) as r:
     print(r.status, len(urls), "URLs gemeldet")

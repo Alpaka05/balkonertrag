@@ -371,6 +371,7 @@ Am sonnigsten ist <a href="{url('stadt/' + slug(top[0]) + '/')}">{e(top[0])}</a>
     (OUT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>')
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {C.SITE_URL}/sitemap.xml\n")
     (OUT / ".nojekyll").write_text("")
+    (OUT / f"{C.INDEXNOW_KEY}.txt").write_text(C.INDEXNOW_KEY)
     print(f"{len(urls)} Seiten gebaut")
 
 

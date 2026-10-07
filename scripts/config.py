@@ -21,3 +21,6 @@ STROMPREIS_CT = 35
 EIGENVERBRAUCH = 0.40
 SET_PREIS_EUR = 350
 SET_WP = 900
+
+# IndexNow-Schlüssel (Bing/Yandex); die Datei {KEY}.txt liegt im Seiten-Stamm
+INDEXNOW_KEY = "c850840793d447458f63d22a1aaf0cf5"

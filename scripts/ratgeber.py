@@ -129,4 +129,40 @@ def articles(x):
 <p>Bei einem einfachen Set mit zwei Modulen deckt dein Grundverbrauch (Kühlschrank, Router, Standby) einen großen Teil des Ertrags schon direkt. Dann investierst du das Geld besser in ein drittes oder viertes Modul.</p>
 <p>Spiel die Zahlen für deine Situation im <a href="{url('rechner/')}">Rechner</a> durch: Setze den Eigenverbrauch einmal auf {int(C.EIGENVERBRAUCH * 100)} % und einmal auf 80 % und rechne den Aufpreis des Speichers dazu.</p>""",
         },
+        {
+            "slug": "balkonkraftwerk-foerderung",
+            "title": "Balkonkraftwerk Förderung 2026: So findest du Zuschüsse in deiner Stadt",
+            "desc": "Gibt es Geld vom Staat fürs Balkonkraftwerk? Was bundesweit gilt, wie du kommunale Zuschüsse findest und wie sie die Amortisation verkürzen.",
+            "html": f"""
+<p class="lead">Eine bundesweite Förderung für Balkonkraftwerke gibt es nicht. Zuschüsse zahlen einzelne Länder, Städte und Stadtwerke, und diese Programme ändern sich ständig: Töpfe sind schnell leer, manche enden ohne Vorwarnung.</p>
+<p class="note">Stand: Oktober 2026. Wir nennen bewusst keine Beträge einzelner Städte, weil sich Übersichten im Netz widersprechen und Programme oft nur monatelang laufen. Prüfe die Höhe immer bei der ausschreibenden Stelle.</p>
+<h2>Was bundesweit gilt</h2>
+<ul>
+<li><b>0 % Mehrwertsteuer</b> beim Kauf und bei der Lieferung von Steckersolargeräten (Nullsteuersatz für PV-Anlagen, § 12 Abs. 3 UStG). Das wirkt automatisch an der Kasse und ist de facto eine Förderung von rund 16 % des Preises gegenüber früher.</li>
+<li><b>Keine Einspeisevergütung nötig:</b> Bei Balkonkraftwerken wird fast der gesamte Strom selbst verbraucht; eine Vergütung für Überschuss lohnt den Aufwand nicht.</li>
+<li><b>Kein Bundeszuschuss.</b> KfW-Programme decken Steckersolargeräte nach unserem Kenntnisstand nicht.</li>
+</ul>
+<h2>Wo es Zuschüsse geben kann</h2>
+<ol>
+<li><b>Gemeinde oder Stadt:</b> Die meisten Programme laufen kommunal. Suche auf der Website deiner Stadt nach „Balkonkraftwerk Förderung“ oder „Steckersolar Zuschuss“.</li>
+<li><b>Stadtwerke und Energieversorger:</b> Manche zahlen Kunden einen Bonus oder bieten vergünstigte Sets an.</li>
+<li><b>Bundesland:</b> Einige Länder haben Programme, oft mit Einschränkungen (zum Beispiel nur für Mieter oder Haushalte mit niedrigem Einkommen). Auf den Landesportalen und bei den Landesförderbanken findest du den aktuellen Stand. Zum Beispiel hat in Mecklenburg-Vorpommern das Landesförderinstitut (LFI) zuletzt Pauschalen gezahlt; die Verfügbarkeit hängt vom jeweiligen Kontingent ab.</li>
+<li><b>Verbraucherzentrale:</b> Beratungsstellen kennen die lokale Lage und wissen, ob ein Programm gerade ausgeschöpft ist.</li>
+</ol>
+<h2>Die häufigsten Fallen</h2>
+<ul>
+<li><b>Antrag vor dem Kauf:</b> Viele Programme zahlen nur, wenn du den Antrag stellst, <em>bevor</em> du das Set bestellst. Wer zuerst kauft, geht leer aus.</li>
+<li><b>Technische Mindestanforderungen:</b> Oft verlangt die Stelle ein bestimmtes Modulleistung, einen normgerechten Wechselrichter und die Registrierung im <a href="{url('ratgeber/balkonkraftwerk-anmelden/')}">Marktstammdatenregister</a>.</li>
+<li><b>Nur ein Gerät pro Haushalt</b> oder pro Zählpunkt ist üblich.</li>
+<li><b>Ausgeschöpfte Töpfe:</b> Auf Übersichtsseiten steht oft noch „Förderung 2026“, obwohl keine Mittel mehr da sind. Frag im Zweifel per E-Mail nach.</li>
+<li><b>Wohnort zählt:</b> Gefördert wird meist nur, wenn du in der Gemeinde gemeldet bist und die Anlage dort betreibst.</li>
+</ul>
+<h2>Wie stark verkürzt ein Zuschuss die Amortisation?</h2>
+<p>Beispiel: Ein Set mit {C.SET_WP} Wp für {euro(C.SET_PREIS_EUR)} erzeugt am Süd-Balkon (senkrecht) im deutschen Schnitt etwa {fmt(base)} kWh. Bei {C.STROMPREIS_CT} ct/kWh und {int(C.EIGENVERBRAUCH * 100)} % Eigenverbrauch sparst du rund {euro(sv(base, C.EIGENVERBRAUCH))} im Jahr.</p>
+<div class="scroll"><table><thead><tr><th>Zuschuss</th><th>Eigenanteil</th><th>Amortisation</th></tr></thead><tbody>
+{''.join(f"<tr><th>{euro(f)}</th><td>{euro(C.SET_PREIS_EUR - f)}</td><td>{fmt((C.SET_PREIS_EUR - f) / sv(base, C.EIGENVERBRAUCH), 1)} Jahre</td></tr>" for f in (0, 100, 200, 300))}
+</tbody></table></div>
+<p>Auch ohne Förderung rechnet sich ein Balkonkraftwerk, ein Zuschuss beschleunigt es nur. Warte deshalb nicht Monate auf einen Förderbescheid, wenn dein Balkon gut liegt. Wie viel dein Standort bringt, siehst du auf der <a href="{url('staedte/')}">Seite deiner Stadt</a>; mit eigenen Zahlen rechnest du im <a href="{url('rechner/')}">Rechner</a>.</p>
+<p class="note">Keine Rechts- oder Steuerberatung. Förderbedingungen ändern sich; maßgeblich sind die Angaben der jeweiligen Stelle.</p>""",
+        },
     ]

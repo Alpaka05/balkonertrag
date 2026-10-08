@@ -203,6 +203,9 @@ def build_city(name, c, all_c, ranks, state_avg, nat_avg):
         ("Muss ich ein Balkonkraftwerk anmelden?",
          "Ja, aber nur noch im Marktstammdatenregister der Bundesnetzagentur. Die frühere Meldung beim Netzbetreiber ist seit dem Solarpaket I entfallen. "
          f'Mehr dazu im <a href="{url("ratgeber/balkonkraftwerk-anmelden/")}">Ratgeber zur Anmeldung</a>.'),
+        (f"Gibt es in {name} eine Förderung für Balkonkraftwerke?",
+         "Bundesweit gibt es keinen Zuschuss, aber 0 % Mehrwertsteuer beim Kauf. Kommunale Programme ändern sich häufig; frag bei deiner Stadt oder den Stadtwerken nach "
+         f'und stelle den Antrag vor dem Kauf. Details im <a href="{url("ratgeber/balkonkraftwerk-foerderung/")}">Ratgeber zur Förderung</a>.'),
     ]
     faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{a}</p></details>" for q, a in faq)
     schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
@@ -336,7 +339,7 @@ Am sonnigsten ist <a href="{url('stadt/' + slug(top[0]) + '/')}">{e(top[0])}</a>
                          f"<article><h1>{e(a['title'])}</h1>{a['html']}</article>{product_box()}", schema,
                          [("Ratgeber", "ratgeber/"), (a["title"], None)]))
     lis = "".join(f'<li><a href="{url("ratgeber/" + a["slug"] + "/")}"><b>{e(a["title"])}</b></a><br><small>{e(a["desc"])}</small></li>' for a in arts)
-    urls.append(page("ratgeber/", f"Balkonkraftwerk-Ratgeber | {C.SITE_NAME}", "Anmeldung, Ausrichtung, Speicher, Mietrecht: Antworten auf die wichtigsten Fragen zum Balkonkraftwerk.",
+    urls.append(page("ratgeber/", f"Balkonkraftwerk-Ratgeber | {C.SITE_NAME}", "Anmeldung, Förderung, Ausrichtung, Speicher, Mietrecht: Antworten auf die wichtigsten Fragen zum Balkonkraftwerk.",
                      f"<h1>Ratgeber</h1><ul class='list'>{lis}</ul>", crumbs=[("Ratgeber", None)]))
 
     # Startseite

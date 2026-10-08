@@ -31,11 +31,13 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 08.10.2026 | Neuer Ratgeber „Förderung“ (bundesweite Regeln, Fallen, Amortisationstabelle mit Zuschuss) + FAQ-Eintrag auf allen Stadtseiten verlinkt. Einzelne Städte-Beträge bewusst weggelassen: Quellen widersprüchlich, Primärseiten (LFI, Städte) vom Sandbox-Proxy blockiert |
 | 07.10.2026 | Projekt angelegt, Daten für ~950 Städte, Generator, Rechner, 5 Ratgeber-Artikel, Veröffentlichung auf GitHub Pages |
 
 ## Nächste Ausbaustufen
 
-- Förderprogramme pro Stadt/Bundesland (sehr gefragt: „Balkonkraftwerk Förderung [Stadt]“)
-- Mehr Ratgeber: Halterungen, Verschattung, Ost-West, Winterertrag, Versicherung, 2000-Wp-Sets
+- Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich
+- Ratgeber-Ideen: Winterertrag, 2000-Wp-Sets, Steckdose/Stecker, Verschattung
+- Mehr Ratgeber: Halterungen, Verschattung, Versicherung
 - Vergleichsseiten für Speicher und Sets (dort sind die Provisionen am höchsten)
 - Weitere Rechner-Seiten mit eigenen Suchbegriffen (Wärmepumpe, Stromkosten Geräte, PV-Dach)

@@ -11,5 +11,5 @@ python3 scripts/build.py         # Website nach site/ bauen
 
 Die Stundensimulation steht zweimal im Code und muss gleich bleiben: `scripts/sim.py` (für die Texte) und `simulate()` in `assets/app.js` (Rechner).
 
-Einstellungen (Domain, Partner-Tag, Impressum): `scripts/config.py`. Strategie und offene Punkte: `PLAN.md`.
+Einstellungen (Domain, Partner-Tag, Impressum): `scripts/config.py`. Strategie und offene Punkte: `PLAN.md`. Übergabe für neue Threads/Rechner: `HANDOFF.md`.
 Deployment: GitHub Actions veröffentlicht `site/` bei jedem Push auf `main`.

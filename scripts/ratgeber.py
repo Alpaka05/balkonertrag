@@ -295,6 +295,50 @@ def articles(x):
 <p>In den meisten Fällen rechnet sich ein Balkonkraftwerk auch ohne Förderung, sofern Ausrichtung und Verschattung passen. Wie viel dein Standort bringt, siehst du auf der <a href="{url('staedte/')}">Seite deiner Stadt</a>.</p>
 <p class="note">Keine Rechts- oder Steuerberatung. Förderbedingungen ändern sich; maßgeblich sind die Angaben der jeweiligen Stelle.</p>""",
         },
+        {
+            "slug": "balkonkraftwerk-kaufen",
+            "title": "Balkonkraftwerk kaufen: Checkliste für Stecker, Zähler und Leistung",
+            "desc": "Worauf du vor dem Kauf achten solltest: 800 W und 960 Wp, Schuko oder Wieland, alter Stromzähler, Halterung und Preis. Mit Rechenbeispiel aus unseren Ertragsdaten.",
+            "html": f"""
+<p class="lead">Ein Balkonkraftwerk ist schnell bestellt, aber vier Dinge solltest du vorher klären: Leistung, Stecker, Zähler und Montage. Diese Checkliste führt dich durch.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Der Wechselrichter darf höchstens 800 W einspeisen, die Module dürfen mehr Leistung haben.</li>
+<li>Am normalen Schuko-Stecker sind nach DIN VDE V 0126-95 höchstens 960 Wp Modulleistung vorgesehen.</li>
+<li>Ein alter Zähler ist kein Hindernis: Anmelden musst du das Gerät nur im Marktstammdatenregister.</li></ul></div>
+<h2>1. Leistung: Wie viel Wp brauchst du?</h2>
+<p>Ein Set mit {C.SET_WP} Wp spart im deutschen Schnitt bei Süd-Ausrichtung und 35° Neigung etwa {euro(s35['eur'])} im Jahr (bei {fmt(V)} kWh Verbrauch und {C.STROMPREIS_CT} ct/kWh). Größere Module bringen mehr Ertrag, aber mit abnehmendem Nutzen, weil der Wechselrichter bei 800 W kappt:</p>
+<div class="scroll"><table><thead><tr><th class=num>Modulleistung</th><th class=num>Ersparnis Süd 35°</th><th class=num>Gekappt</th></tr></thead><tbody>
+{''.join(f"<tr><td class=num>{fmt(wp)} Wp</td><td class=num>{euro(big[wp]['S35']['eur'])}</td><td class=num>{fmt(big[wp]['S35']['clipped'])} kWh</td></tr>" for wp in (900, 1200, 1600, 2000))}
+</tbody></table></div>
+<p>Wer nicht genau nach Süden und schräg montieren kann, profitiert eher von mehr Modulleistung. Mehr dazu im <a href="{url('ratgeber/2000-watt/')}">Ratgeber zu 2000 Wp</a>.</p>
+<h2>2. Stecker: Schuko oder Wieland?</h2>
+<ul>
+<li><b>Schuko-Stecker:</b> Du steckst das Gerät in eine normale Steckdose. Das ist bis 960 Wp Modulleistung vorgesehen, also passend zu {C.SET_WP}-Wp-Sets. Der Wechselrichter muss die geltenden Sicherheitsanforderungen erfüllen. Frag den Händler nach der Konformität zur Norm.</li>
+<li><b>Wieland-Steckdose:</b> Eine spezielle Energiesteckdose, die ein Elektriker installiert. Sie ist die Lösung für mehr Modulleistung (bis 2.000 Wp) und wird auch von manchen Förderprogrammen verlangt.</li>
+<li><b>Keine Steckdosenleiste:</b> Schließe das Gerät nie über Mehrfachstecker an.</li>
+</ul>
+<p>Quelle: <a href="https://www.vzhh.de/presse/licht-schatten-die-neue-norm-fuer-balkonkraftwerke-bringt-klarheit">Verbraucherzentrale Hamburg zur neuen Norm</a>. Bei Unsicherheit entscheidet ein Elektriker.</p>
+<h2>3. Zähler: Muss er getauscht werden?</h2>
+<p>Ein alter Ferraris-Zähler dreht bei Einspeisung rückwärts. Das ist seit dem Solarpaket I vom April 2024 kein Verstoß mehr, und du musst das Gerät nicht mehr beim Netzbetreiber anmelden, sondern nur im <a href="{url('ratgeber/balkonkraftwerk-anmelden/')}">Marktstammdatenregister</a>. Der Netzbetreiber tauscht den Zähler später gegen einen zeitgemäßen. Zählerwechsel und Kosten dafür unterscheiden sich je nach Messstellenbetreiber; schau in dessen Preisblatt oder frag bei der Verbraucherzentrale nach.</p>
+<h2>4. Montage: Wo und womit?</h2>
+<ul>
+<li><b>Geländer:</b> Prüfe vor dem Kauf, ob die Halterung zu Geländerform und -breite passt, und frag bei Mietwohnungen vorher den Vermieter (<a href="{url('ratgeber/balkonkraftwerk-mieter/')}">Ratgeber Mieter</a>).</li>
+<li><b>Sicherheit:</b> Module wiegen etwa 20–25 kg pro Stück und müssen gegen Wind gesichert sein. Nutze nur Halterungen, die für das Gewicht und die Modulgröße zugelassen sind.</li>
+<li><b>Ausrichtung:</b> Ein paar Grad mehr oder weniger machen kaum etwas aus. Wichtiger ist, dass kein Schatten auf die Module fällt: <a href="{url('ratgeber/ausrichtung-neigung/')}">Ausrichtung und Neigung</a>.</li>
+</ul>
+<h2>5. Preis und Wirtschaftlichkeit</h2>
+<p>Komplettsets mit zwei Modulen und 800-W-Wechselrichter kosten meist {euro(300)}–{euro(500)}. Bei {euro(C.SET_PREIS_EUR)} und {euro(s35['eur'])} Ersparnis pro Jahr (Süd, 35°) hat sich das Set nach rund {fmt(C.SET_PREIS_EUR / s35['eur'], 1)} Jahren bezahlt. Am Geländer (senkrecht, Süd) sind es {fmt(C.SET_PREIS_EUR / s90['eur'], 1)} Jahre. Rechne deinen Fall im {more(url('rechner/'), 'Rechner')}</p>
+<h2>Checkliste vor dem Kauf</h2>
+<ol>
+<li>Ausrichtung, Neigung und Verschattung des Balkons geprüft.</li>
+<li>Bei Miete oder Eigentümergemeinschaft Erlaubnis eingeholt.</li>
+<li>Wechselrichter mit höchstens 800 W und Nachweis der Normkonformität.</li>
+<li>Stecker passend zur Modulleistung (Schuko bis 960 Wp, sonst Wieland).</li>
+<li>Halterung passend zu Geländer und Modulgewicht.</li>
+<li>Nach der Montage: Registrierung im Marktstammdatenregister.</li>
+</ol>
+<p class="note">Stand: Oktober 2026. Keine Rechts- oder Elektrikerberatung; maßgeblich sind die Normen, die Angaben der Bundesnetzagentur und dein Netzbetreiber.</p>""",
+        },
     ]
 
 

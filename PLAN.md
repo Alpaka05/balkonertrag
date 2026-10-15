@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 15.10.2026 | Neuer Ratgeber „Balkonkraftwerk versichern“ (Hausrat, Haftpflicht, Melde-Checkliste, Quellen Verbraucherzentrale/GDV), verlinkt aus Mieter-Ratgeber |
 | 12.10.2026 | Neuer Ratgeber „Balkonkraftwerk kaufen“ (Checkliste: Leistung mit Simulationstabelle, Schuko vs. Wieland, Zähler, Montage, Amortisation); Build braucht Python ≥ 3.12 |
 | 08.10.2026 | Großes Update nach Review (Design, Faktencheck, Features): neues Design-System, Rechner mit Stundensimulation (BDEW H25, 800-W-Grenze, Speicher, Ost-West, 8 Neigungen), Speicher-Rechner, Vermieter-Antrag-Generator, PLZ- und Standortsuche, teilbare Rechner-Links, Heatmap Neigung×Ausrichtung pro Stadt, Methodik-Seite, Ratgeber Winter/2000 Watt/Ost-West, Fakten korrigiert (VDE-Norm 960 Wp, Zählerkosten, Mietrecht, Förderung MV, Speicherpreise), Datenschutz ergänzt |
 | 08.10.2026 | Neuer Ratgeber „Förderung“ (bundesweite Regeln, Fallen, Amortisationstabelle mit Zuschuss) + FAQ-Eintrag auf allen Stadtseiten verlinkt. Einzelne Städte-Beträge bewusst weggelassen: Quellen widersprüchlich, Primärseiten (LFI, Städte) vom Sandbox-Proxy blockiert |
@@ -41,7 +42,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 - Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich
 - Einbett-Widget für andere Websites (Backlinks), Seite /einbinden/
 - Vergleichstabellen Speicher/Sets mit Datum (data/produkte.json), sobald Partnerprogramme laufen
-- Ratgeber: Verschattung, Halterungen, Versicherung, Glossar (Stromzähler/Schuko/Kaufen-Checkliste sind erledigt; Zählerwechsel-Kosten ggf. mit Primärquelle nachtragen)
+- Ratgeber: Verschattung, Halterungen, Glossar (Versicherung ist erledigt) (Stromzähler/Schuko/Kaufen-Checkliste sind erledigt; Zählerwechsel-Kosten ggf. mit Primärquelle nachtragen)
 - Monatsseiten (/monat/januar/ ...) mit nationalem Monatsranking
 - Vergleichsseiten für Speicher und Sets (dort sind die Provisionen am höchsten)
 - Weitere Rechner-Seiten mit eigenen Suchbegriffen (Wärmepumpe, Stromkosten Geräte, PV-Dach)

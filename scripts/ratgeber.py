@@ -253,7 +253,7 @@ def articles(x):
 <ol>
 <li>Datenblatt des Sets und ein Foto oder eine Skizze der geplanten Montage beilegen.</li>
 <li>Befestigung beschreiben, möglichst mit Halterung am Geländer und ohne Bohren in die Fassade.</li>
-<li>Versicherung klären: Frag kurz bei deiner Haftpflichtversicherung nach, ob das Balkonkraftwerk mitversichert ist.</li>
+<li>Versicherung klären: Frag kurz bei deiner Haftpflichtversicherung nach, ob das Balkonkraftwerk mitversichert ist. Mehr im <a href="{url('ratgeber/balkonkraftwerk-versicherung/')}">Versicherungs-Ratgeber</a>.</li>
 <li>Schriftlich zustellen und eine angemessene Frist nennen.</li>
 </ol>
 <p>Den fertigen Brief erstellst du mit unserem {more(url('vermieter-antrag/'), 'Antrags-Generator')}</p>
@@ -294,6 +294,34 @@ def articles(x):
 </tbody></table></div>
 <p>In den meisten Fällen rechnet sich ein Balkonkraftwerk auch ohne Förderung, sofern Ausrichtung und Verschattung passen. Wie viel dein Standort bringt, siehst du auf der <a href="{url('staedte/')}">Seite deiner Stadt</a>.</p>
 <p class="note">Keine Rechts- oder Steuerberatung. Förderbedingungen ändern sich; maßgeblich sind die Angaben der jeweiligen Stelle.</p>""",
+        },
+        {
+            "slug": "balkonkraftwerk-versicherung",
+            "title": "Balkonkraftwerk versichern: Hausrat, Haftpflicht und was du melden solltest",
+            "desc": "Brauchst du eine eigene Versicherung fürs Balkonkraftwerk? Meist nicht. Was Hausrat und Haftpflicht abdecken, was du dem Versicherer melden solltest und wo Lücken bleiben.",
+            "html": f"""
+<p class="lead">Für ein Balkonkraftwerk brauchst du in der Regel keine eigene Versicherung. Es lohnt sich aber, Hausrat- und Haftpflichtversicherung einmal kurz zu informieren und die Bestätigung aufzuheben.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Die Anlage ist meist Teil des Hausrats: Schäden durch Sturm, Hagel, Blitz/Überspannung oder Diebstahl können dort abgedeckt sein, je nach Vertrag.</li>
+<li>Fremdschäden (etwa ein herabfallendes Modul) gehören in die private Haftpflicht.</li>
+<li>Melde das Gerät beiden Versicherern und bewahre die Bestätigung auf. Das kostet oft nichts extra.</li></ul></div>
+<h2>Hausratversicherung: Schäden an der Anlage</h2>
+<p>Nach Angaben der Verbraucherzentrale gelten Balkonkraftwerke meist als Teil des Hausrats. Seit den neuen Musterbedingungen des Versicherungsverbands GDV (2023) sind sie dort ausdrücklich genannt. Diese Bedingungen sind aber nur eine Empfehlung: Dein Versicherer kann abweichen, und ältere Verträge enthalten sie womöglich nicht. Ob Diebstahl, Sturm und Hagel abgedeckt sind und bis zu welcher Summe, steht in deinen Vertragsbedingungen.</p>
+<h2>Haftpflicht: Schäden bei anderen</h2>
+<p>Fällt ein Modul bei Sturm vom Geländer und trifft ein Auto oder einen Passanten, ist das ein Fall für die private Haftpflichtversicherung. Frag nach, ob sie auch Schäden durch den Betrieb der Anlage abdeckt (zum Beispiel einen Kurzschluss), und lass dir das bei Bedarf schriftlich ergänzen. Wichtig ist eine solide Montage: Geländer-Halterungen müssen Windlast aushalten, und Kabel und Stecker gehören geschützt.</p>
+<h2>Checkliste in 10 Minuten</h2>
+<ol>
+<li>Vertragsunterlagen von Hausrat und Haftpflicht heraussuchen und nach „Balkonkraftwerk“, „Steckersolar“ oder „Photovoltaik“ suchen.</li>
+<li>Dem Versicherer das Gerät kurz melden: Modulleistung, Kaufpreis, Montageort. Eine E-Mail genügt.</li>
+<li>Fragen: Ist Diebstahl mitversichert? Gilt das auch am Balkongeländer? Ist ein Speicher (Akku) ausdrücklich eingeschlossen?</li>
+<li>Bestätigung der Versicherung abheften, zusammen mit Rechnung und Datenblatt.</li>
+<li>Als Mieter oder Eigentümer: Den Versicherungsnachweis dem <a href="{url('vermieter-antrag/')}">Antrag an den Vermieter</a> beilegen. Das nimmt oft Bedenken.</li>
+</ol>
+<h2>Lohnt sich eine eigene Police?</h2>
+<p>Bei einem Set für {euro(C.SET_PREIS_EUR)} meist nicht: Der Jahresbeitrag stünde in keinem Verhältnis zum Wert. Der GDV sieht die Hausratpolice als ausreichend. Teurer wird es bei einem Speicher oder wenn du eine Anlage fest am Gebäude montierst; dann kann sie eher zur Wohngebäudeversicherung gehören. Frag in dem Fall bei Vermieter bzw. Eigentümergemeinschaft nach.</p>
+<p>Zum finanziellen Gesamtbild: Ein {C.SET_WP}-Wp-Set spart im Schnitt etwa {euro(s35['eur'])} im Jahr. Mehr dazu in der <a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Kauf-Checkliste</a>.</p>
+<p>Quellen: <a href="https://www.verbraucherzentrale.de/wissen/energie/erneuerbare-energien/faq-zu-steckersolargeraeten-das-sind-die-haeufigsten-fragen-86652">Verbraucherzentrale: FAQ zu Steckersolar-Geräten</a>, <a href="https://www.verbraucherzentrale-rlp.de/pressemitteilungen/richtig-gut-versichert-balkonkraftwerke-88229">Verbraucherzentrale Rheinland-Pfalz: Richtig gut versichert</a>, <a href="https://www.gdv.de/gdv/medien/medieninformationen/neue-musterbedingungen-balkonkraftwerke-kuenftig-ueber-die-hausratpolice-versichert-157730">GDV: Neue Musterbedingungen</a>.</p>
+<p class="note">Stand Oktober 2026. Dieser Ratgeber ersetzt keine Versicherungsberatung; maßgeblich sind deine Vertragsbedingungen.</p>""",
         },
         {
             "slug": "balkonkraftwerk-kaufen",

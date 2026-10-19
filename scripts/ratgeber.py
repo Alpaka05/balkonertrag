@@ -64,6 +64,12 @@ def articles(x):
                          for i, m in enumerate(["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]))
     dez_rank = sorted(cy, key=lambda c: -cy[c]["m"]["S90"][11])
 
+    # Verschattung: pauschaler Ertragsverlust über das ganze Jahr
+    shade = {f: model.run([v * (1 - f) for v in nm["S35"]], "S35", C.SET_WP, V) for f in (0, 0.1, 0.2, 0.3, 0.5)}
+    shade_rows = "".join(
+        f"<tr><th scope=row>{'unverschattet' if f == 0 else fmt(f * 100) + ' % weniger Ertrag'}</th><td class=num>{fmt(r['pv'])} kWh</td><td class=num>{euro(r['eur'])}</td><td class=num>{fmt(C.SET_PREIS_EUR / r['eur'], 1)} Jahre</td></tr>"
+        for f, r in shade.items())
+
     speicher_extra = s90b["eur"] - s90["eur"]
     big_extra = big_b["eur"] - big[2000]["S35"]["eur"]
 
@@ -88,7 +94,7 @@ def articles(x):
 <li><b>Ost und West kombinieren:</b> Ein Modul nach Osten, eins nach Westen verteilt den Strom über den Tag. Mehr dazu im <a href="{url('ratgeber/ost-west/')}">Ost-West-Ratgeber</a>.</li>
 </ul>
 <h2>Verschattung schlägt Ausrichtung</h2>
-<p>Alle Werte gelten ohne Schatten. Ein Baum, der Balkon darüber oder ein Nachbarhaus können den Ertrag stärker senken als eine ungünstige Ausrichtung. Beobachte an einem sonnigen Tag, wann die Sonne wirklich auf die Module scheint.</p>
+<p>Alle Werte gelten ohne Schatten. Ein Baum, der Balkon darüber oder ein Nachbarhaus können den Ertrag stärker senken als eine ungünstige Ausrichtung. Beobachte an einem sonnigen Tag, wann die Sonne wirklich auf die Module scheint. Was Schatten kostet und wie du ihn prüfst, steht im <a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">Ratgeber zur Verschattung</a>.</p>
 <p>Die genauen Werte für jede Ausrichtung und Neigung an deinem Ort zeigt die Tabelle auf der {more(url('staedte/'), 'Seite deiner Stadt')}</p>""",
         },
         {
@@ -324,6 +330,47 @@ def articles(x):
 <p class="note">Stand Oktober 2026. Dieser Ratgeber ersetzt keine Versicherungsberatung; maßgeblich sind deine Vertragsbedingungen.</p>""",
         },
         {
+            "slug": "balkonkraftwerk-verschattung",
+            "title": "Balkonkraftwerk und Verschattung: Wie viel Ertrag kostet Schatten?",
+            "desc": "Ein Schatten kann mehr Ertrag kosten als die falsche Ausrichtung. So erkennst du Verschattung am Balkon, was sie kostet und wann sich das Balkonkraftwerk trotzdem lohnt.",
+            "html": f"""
+<p class="lead">Schatten ist der größte Ertragskiller am Balkon, und er wird beim Kauf am häufigsten übersehen. Schon ein Schatten auf einem Teil des Moduls kann die Leistung stark drücken, weil die Zellen im Modul hintereinander geschaltet sind.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Alle Ertragswerte auf dieser Website gelten ohne Verschattung. Echte Werte liegen bei Schatten darunter.</li>
+<li>Ein Set mit {C.SET_WP} Wp (Süd, 35°) spart unverschattet etwa {euro(shade[0]['eur'])} im Jahr, mit 30 % Ertragsverlust nur noch {euro(shade[0.3]['eur'])}.</li>
+<li>Schatten am Morgen oder Abend kostet wenig, Schatten um die Mittagszeit viel.</li></ul></div>
+<h2>Was Schatten mit dem Modul macht</h2>
+<p>Die Zellen eines Moduls sind in Reihe geschaltet: Die schwächste Zelle bestimmt den Strom eines ganzen Strangs. Bypassdioden überbrücken verschattete Teile, damit nicht das ganze Modul ausfällt, aber der überbrückte Abschnitt liefert dann nichts. Deshalb ist die Faustregel: Ein Schatten, der nur ein Zehntel der Fläche bedeckt, kann deutlich mehr als zehn Prozent Leistung kosten. Wie viel genau, hängt von Modul, Schattenform und Wechselrichter ab, eine pauschale Zahl gibt es nicht.</p>
+<h2>Was ein Ertragsverlust kostet</h2>
+<p>Rechenbeispiel mit der Stundensimulation: {C.SET_WP} Wp, Süd, 35°, {fmt(V)} kWh Verbrauch, {C.STROMPREIS_CT} ct/kWh, Durchschnitt aus {len(cy)} Städten. Der Verlust ist hier pauschal über das Jahr angesetzt.</p>
+<div class="scroll"><table><thead><tr><th></th><th class=num>Ertrag</th><th class=num>Ersparnis</th><th class=num>Amortisation</th></tr></thead><tbody>{shade_rows}</tbody></table></div>
+<p>Selbst mit 30 % Verlust hat sich ein Set für {euro(C.SET_PREIS_EUR)} nach etwa {fmt(C.SET_PREIS_EUR / shade[0.3]['eur'], 1)} Jahren bezahlt. Verschattung macht ein Balkonkraftwerk also selten sinnlos, aber sie verlängert die Amortisation spürbar.</p>
+<h2>Typische Schattenquellen am Balkon</h2>
+<ul>
+<li><b>Der Balkon darüber:</b> Im Sommer steht die Sonne mittags in Deutschland bis zu 60° hoch (bei 51° Breite rund 62°). Ein Überstand von oben beschattet senkrechte Module dann im oberen Teil. Im Dezember steht sie mittags nur etwa 15° hoch, dann reicht ein Nachbargebäude gegenüber.</li>
+<li><b>Bäume:</b> Laubbäume schatten im Sommer, wenn du den meisten Ertrag hättest, und sind im Winter kahl.</li>
+<li><b>Geländer und Brüstung:</b> Eine blickdichte Brüstung vor den Modulen oder ein Blumenkasten vor der Unterkante kann unten Schatten werfen.</li>
+<li><b>Nachbarhäuser, Schornsteine, Antennen:</b> Sie wandern mit der Sonne und treffen oft nur Morgen oder Abend.</li>
+<li><b>Die eigenen Module:</b> Aufgeständerte Module in mehreren Reihen verschatten sich gegenseitig. Nach dem Aufstellen mit Abstand planen.</li>
+</ul>
+<h2>So prüfst du deinen Balkon vor dem Kauf</h2>
+<ol>
+<li>Schau an einem sonnigen Tag zu drei Zeiten (9, 12 und 16 Uhr) auf die Stelle, an der die Module hängen sollen, und notiere, ob Schatten darauf fällt.</li>
+<li>Mach jeweils ein Foto, am besten im Frühjahr oder Herbst, wenn die Sonne mittelhoch steht. Im Hochsommer ist das Bild zu optimistisch, im Winter zu pessimistisch.</li>
+<li>Prüfe, welche Schatten gerade zur Mittagszeit fallen. Alles zwischen 10 und 15 Uhr zählt am stärksten.</li>
+<li>Wenn nur die Randzeiten betroffen sind, rechne ruhig mit dem Normalwert. Bei Mittagsschatten plane mit 20–30 % weniger.</li>
+</ol>
+<h2>Was du tun kannst</h2>
+<ul>
+<li><b>Anderen Ort suchen:</b> Eine Stelle am Geländer, an der Wand oder auf dem Boden kann viel weniger Schatten bekommen als die erste Idee.</li>
+<li><b>Höher oder weiter außen montieren:</b> Manchmal reichen 30 cm, damit der Überstand nicht mehr trifft.</li>
+<li><b>Zwei Module getrennt ausrichten:</b> Verschattet nur ein Modul, kann der Schaden begrenzt bleiben. Bei Modellen mit zwei Eingängen (zwei MPP-Trackern) laufen beide unabhängig voneinander, frag danach beim Kauf.</li>
+<li><b>Nach Verbrauch planen:</b> Fällt der Schatten am Vormittag, die Sonne scheint aber nachmittags, ist die Ausrichtung nach Südwest oft besser als Süd: <a href="{url('ratgeber/ausrichtung-neigung/')}">Ausrichtung und Neigung</a>.</li>
+</ul>
+<p>Eigene Verlustannahmen kannst du im {more(url('rechner/'), 'Rechner')} grob nachstellen, indem du eine ungünstigere Ausrichtung oder weniger Modulleistung wählst. Vor dem Kauf hilft die <a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Kauf-Checkliste</a>.</p>
+<p class="note">Stand Oktober 2026. Die Tabelle ist eine Modellrechnung mit pauschalem Verlust, keine Messung. Reale Schatten verändern sich mit Tages- und Jahreszeit.</p>""",
+        },
+        {
             "slug": "balkonkraftwerk-kaufen",
             "title": "Balkonkraftwerk kaufen: Checkliste für Stecker, Zähler und Leistung",
             "desc": "Worauf du vor dem Kauf achten solltest: 800 W und 960 Wp, Schuko oder Wieland, alter Stromzähler, Halterung und Preis. Mit Rechenbeispiel aus unseren Ertragsdaten.",
@@ -352,7 +399,7 @@ def articles(x):
 <ul>
 <li><b>Geländer:</b> Prüfe vor dem Kauf, ob die Halterung zu Geländerform und -breite passt, und frag bei Mietwohnungen vorher den Vermieter (<a href="{url('ratgeber/balkonkraftwerk-mieter/')}">Ratgeber Mieter</a>).</li>
 <li><b>Sicherheit:</b> Module wiegen etwa 20–25 kg pro Stück und müssen gegen Wind gesichert sein. Nutze nur Halterungen, die für das Gewicht und die Modulgröße zugelassen sind.</li>
-<li><b>Ausrichtung:</b> Ein paar Grad mehr oder weniger machen kaum etwas aus. Wichtiger ist, dass kein Schatten auf die Module fällt: <a href="{url('ratgeber/ausrichtung-neigung/')}">Ausrichtung und Neigung</a>.</li>
+<li><b>Ausrichtung:</b> Ein paar Grad mehr oder weniger machen kaum etwas aus. Wichtiger ist, dass kein Schatten auf die Module fällt (<a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">was Schatten kostet</a>): <a href="{url('ratgeber/ausrichtung-neigung/')}">Ausrichtung und Neigung</a>.</li>
 </ul>
 <h2>5. Preis und Wirtschaftlichkeit</h2>
 <p>Komplettsets mit zwei Modulen und 800-W-Wechselrichter kosten meist {euro(300)}–{euro(500)}. Bei {euro(C.SET_PREIS_EUR)} und {euro(s35['eur'])} Ersparnis pro Jahr (Süd, 35°) hat sich das Set nach rund {fmt(C.SET_PREIS_EUR / s35['eur'], 1)} Jahren bezahlt. Am Geländer (senkrecht, Süd) sind es {fmt(C.SET_PREIS_EUR / s90['eur'], 1)} Jahre. Rechne deinen Fall im {more(url('rechner/'), 'Rechner')}</p>

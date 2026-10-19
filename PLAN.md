@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 19.10.2026 | Neuer Ratgeber „Balkonkraftwerk und Verschattung“ (Simulationstabelle Ertragsverlust 0–50 %, Schattenquellen, Prüf-Checkliste), verlinkt aus Ausrichtung und Kaufen |
 | 15.10.2026 | Neuer Ratgeber „Balkonkraftwerk versichern“ (Hausrat, Haftpflicht, Melde-Checkliste, Quellen Verbraucherzentrale/GDV), verlinkt aus Mieter-Ratgeber |
 | 12.10.2026 | Neuer Ratgeber „Balkonkraftwerk kaufen“ (Checkliste: Leistung mit Simulationstabelle, Schuko vs. Wieland, Zähler, Montage, Amortisation); Build braucht Python ≥ 3.12 |
 | 08.10.2026 | Großes Update nach Review (Design, Faktencheck, Features): neues Design-System, Rechner mit Stundensimulation (BDEW H25, 800-W-Grenze, Speicher, Ost-West, 8 Neigungen), Speicher-Rechner, Vermieter-Antrag-Generator, PLZ- und Standortsuche, teilbare Rechner-Links, Heatmap Neigung×Ausrichtung pro Stadt, Methodik-Seite, Ratgeber Winter/2000 Watt/Ost-West, Fakten korrigiert (VDE-Norm 960 Wp, Zählerkosten, Mietrecht, Förderung MV, Speicherpreise), Datenschutz ergänzt |
@@ -42,7 +43,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 - Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich
 - Einbett-Widget für andere Websites (Backlinks), Seite /einbinden/
 - Vergleichstabellen Speicher/Sets mit Datum (data/produkte.json), sobald Partnerprogramme laufen
-- Ratgeber: Verschattung, Halterungen, Glossar (Versicherung ist erledigt) (Stromzähler/Schuko/Kaufen-Checkliste sind erledigt; Zählerwechsel-Kosten ggf. mit Primärquelle nachtragen)
+- Ratgeber: Halterungen, Glossar (Versicherung und Verschattung sind erledigt) (Stromzähler/Schuko/Kaufen-Checkliste sind erledigt; Zählerwechsel-Kosten ggf. mit Primärquelle nachtragen)
 - Monatsseiten (/monat/januar/ ...) mit nationalem Monatsranking
 - Vergleichsseiten für Speicher und Sets (dort sind die Provisionen am höchsten)
 - Weitere Rechner-Seiten mit eigenen Suchbegriffen (Wärmepumpe, Stromkosten Geräte, PV-Dach)

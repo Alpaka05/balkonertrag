@@ -141,6 +141,7 @@ def articles(x):
 <li><b>Grundlast decken:</b> Im Winter reicht der Ertrag oft genau für Kühlschrank, Router und Standby. Fast alles wird selbst genutzt.</li>
 <li><b>Speicher:</b> Im Winter wird er kaum voll. Er lohnt sich vor allem durch den Sommer.</li>
 </ul>
+<p>Pro Monat im Detail: <a href="{url('monat/dezember/')}">Dezember</a>, <a href="{url('monat/januar/')}">Januar</a>, <a href="{url('monat/februar/')}">Februar</a> mit Städte-Ranking, oder die <a href="{url('monat/')}">Übersicht aller Monate</a>.</p>
 <p>Winterwerte für deinen Ort: {more(url('staedte/'), 'Stadt auswählen')}</p>""",
         },
         {

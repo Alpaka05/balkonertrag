@@ -137,7 +137,7 @@ def page(path, title, desc, body, schema=None, crumbs=None, active=None, byline=
 </main>
 <footer><div class="wrap cols3">
 <div><h2>{C.SITE_NAME}</h2><p>Unabhängige Ertragsdaten für Balkonkraftwerke in {C.N_CITIES} deutschen Städten. Ertragsdaten: <a href="https://joint-research-centre.ec.europa.eu/photovoltaic-geographical-information-system-pvgis_en" rel="noopener">PVGIS 5.3</a> der EU-Kommission (SARAH-3, 14 % Systemverluste), Lastprofil: BDEW H25, Orte: <a href="https://www.geonames.org/" rel="noopener">GeoNames</a> (CC BY 4.0). Alle Angaben sind Schätzungen ohne Gewähr. <a href="{url('methodik/')}">So rechnen wir</a>.</p></div>
-<div><h2>Werkzeuge</h2><ul><li><a href="{url('rechner/')}">Ertragsrechner</a></li><li><a href="{url('speicher-rechner/')}">Speicher-Rechner</a></li><li><a href="{url('vermieter-antrag/')}">Antrag an den Vermieter</a></li><li><a href="{url('staedte/')}">Alle Städte</a></li></ul></div>
+<div><h2>Werkzeuge</h2><ul><li><a href="{url('rechner/')}">Ertragsrechner</a></li><li><a href="{url('speicher-rechner/')}">Speicher-Rechner</a></li><li><a href="{url('vermieter-antrag/')}">Antrag an den Vermieter</a></li><li><a href="{url('staedte/')}">Alle Städte</a></li><li><a href="{url('monat/')}">Ertrag pro Monat</a></li></ul></div>
 <div><h2>Über</h2><ul><li><a href="{url('methodik/')}">Methodik</a></li><li><a href="{url('impressum/')}">Impressum</a></li><li><a href="{url('datenschutz/')}">Datenschutz</a></li><li>Seite aktualisiert: {datum(TODAY)}</li></ul></div>
 </div></footer>
 <script src="{url('assets/app.js')}?v={C.ASSET_VERSION}" defer></script>
@@ -381,6 +381,107 @@ def avg_months(cities, names):
     return {k: [round(sum(cities[n]["m"][k][i] for n in names) / len(names), 1) for i in range(12)] for k in keys}
 
 
+# ---------------------------------------------------------------- Monatsseiten
+
+DAYS = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+MONTH_IN = ["im Januar", "im Februar", "im März", "im April", "im Mai", "im Juni", "im Juli", "im August", "im September", "im Oktober", "im November", "im Dezember"]
+
+
+def month_slug(i):
+    return slug(MONTHS_LONG[i])
+
+
+def build_months(cities, by_state, state_rank, nat_m):
+    """Je Monat eine Seite mit nationalem Ertrag, Städte-Ranking und Bundesländern; dazu eine Übersicht."""
+    urls = []
+    yearly35 = sum(nat_m["S35"])
+    yearly90 = sum(nat_m["S90"])
+    nm90 = [v * KWP for v in nat_m["S90"]]
+    nm35 = [v * KWP for v in nat_m["S35"]]
+    names = list(cities)
+    for i in range(12):
+        mo = MONTHS_LONG[i]
+        d = DAYS[i]
+        a90, a35 = nm90[i], nm35[i]
+        share90, share35 = nat_m["S90"][i] / yearly90 * 100, nat_m["S35"][i] / yearly35 * 100
+        ranked = sorted(names, key=lambda n: -cities[n]["m"]["S90"][i])
+        top = ranked[:15]
+        sort_m = sorted(range(12), key=lambda k: -nm90[k])
+        pos = sort_m.index(i) + 1
+        better = "schräg aufgeständert (35°)" if a35 > a90 else "senkrecht am Geländer (90°)"
+        ratio = max(a35, a90) / min(a35, a90)
+        if a35 > a90:
+            why = (f"Die Sonne steht {MONTH_IN[i]} hoch, deshalb fängt ein schräges Modul mit {fmt((a35 / a90 - 1) * 100)} % mehr Licht ein als ein senkrechtes.")
+        else:
+            why = (f"Die Sonne steht {MONTH_IN[i]} tief genug, dass senkrechte Module mit {fmt((a90 / a35 - 1) * 100)} % mehr Strom die Nase vorn haben.")
+        state_rows = "".join(
+            f'<tr><td><a href="{url("bundesland/" + slug(s) + "/")}">{e(s)}</a></td>'
+            f'{num_td(sum(cities[n]["m"]["S90"][i] for n in by_state[s]) / len(by_state[s]) * KWP, suffix=" kWh")}'
+            f'{num_td(sum(cities[n]["m"]["S35"][i] for n in by_state[s]) / len(by_state[s]) * KWP, suffix=" kWh")}</tr>'
+            for s in sorted(state_rank, key=lambda s: -sum(cities[n]["m"]["S90"][i] for n in by_state[s]) / len(by_state[s])))
+
+        def row(n):
+            c = cities[n]["m"]
+            return (f'<tr><td><a href="{url("stadt/" + slug(n) + "/")}">{e(n)}</a></td>{num_td(c["S90"][i] * KWP, suffix=" kWh")}'
+                    f'{num_td(c["S35"][i] * KWP, suffix=" kWh")}{num_td(c["S90"][i] * KWP / d, 2, " kWh")}</tr>')
+        head = ('<thead><tr><th scope="col">Stadt</th><th class="num" scope="col">Geländer 90°</th>'
+                '<th class="num" scope="col">Aufgeständert 35°</th><th class="num" scope="col">pro Tag (90°)</th></tr></thead>')
+        prev_i, next_i = (i - 1) % 12, (i + 1) % 12
+        faq = [
+            (f"Wie viel Strom erzeugt ein Balkonkraftwerk {MONTH_IN[i]}?",
+             f"Im deutschen Durchschnitt erzeugt ein Set mit {C.SET_WP} Wp {MONTH_IN[i]} etwa {fmt(a90)} kWh am Geländer (90°, Süd) und {fmt(a35)} kWh aufgeständert (35°). "
+             f"Das sind {fmt(share90, 1)} % bzw. {fmt(share35, 1)} % des Jahresertrags, im Schnitt rund {fmt(a90 / d, 2)} kWh pro Tag am Geländer."),
+            (f"Wo bringt ein Balkonkraftwerk {MONTH_IN[i]} am meisten?",
+             f"Am meisten Ertrag gibt es {MONTH_IN[i]} in {top[0]} mit etwa {fmt(cities[top[0]]['m']['S90'][i] * KWP)} kWh (90°, Süd, {C.SET_WP} Wp). In engen Tälern oder bei hohem Horizont fällt der Ertrag senkrechter Module im Winter deutlich geringer aus."),
+            (f"Welche Montage ist {MONTH_IN[i]} besser?",
+             f"Im Schnitt lohnt sich {MONTH_IN[i]} die Montage {better}. {why}"),
+        ]
+        faq_html = "".join(f"<details><summary>{e(q)}</summary><p>{a}</p></details>" for q, a in faq)
+        schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}
+        body = f"""<h1>Balkonkraftwerk-Ertrag {MONTH_IN[i]}</h1>
+<p class="lead">{MONTH_IN[i][0].upper() + MONTH_IN[i][1:]} erzeugt ein Balkonkraftwerk mit {C.SET_WP} Wp in Deutschland im Schnitt <strong>{fmt(a90)} kWh</strong> am Geländer und <strong>{fmt(a35)} kWh</strong> aufgeständert. Das ist Platz {pos} von 12 unter den Monaten.</p>
+<div class="facts">
+<div><b>{fmt(a90 / d, 2)} kWh</b><small>pro Tag am Geländer (90°, Süd)</small></div>
+<div><b>{fmt(share90, 1)} %</b><small>des Jahresertrags fallen auf den {mo}</small></div>
+<div><b>{fmt(ratio, 2)}×</b><small>mehr Ertrag mit {better}</small></div>
+</div>
+<p>{why} Die Werte sind der Durchschnitt aus {len(cities)} Städten, berechnet aus PVGIS-Daten (SARAH-3), ohne Verschattung. Einzelne Jahre schwanken je nach Wetter deutlich.</p>
+<section>
+<h2>Die sonnigsten Städte {MONTH_IN[i]}</h2>
+<div class="scroll"><table>{head}<tbody>{"".join(row(n) for n in top)}</tbody></table></div>
+<p class="small">kWh pro Monat mit {C.SET_WP} Wp, Ausrichtung Süd; berücksichtigt den Horizont des Standorts. Deine Stadt fehlt? Auf der <a href="{url('staedte/')}">Städteseite</a> findest du alle {len(cities)} Orte mit Monatsdiagramm.</p>
+</section>
+<section>
+<h2>Bundesländer {MONTH_IN[i]} im Vergleich</h2>
+<div class="scroll"><table><thead><tr><th scope="col">Bundesland</th><th class="num" scope="col">Geländer 90°</th><th class="num" scope="col">Aufgeständert 35°</th></tr></thead><tbody>{state_rows}</tbody></table></div>
+</section>
+<section>
+<h2>Was heißt das für dich?</h2>
+<p>Rechne mit deinem Verbrauch nach, wie viel von diesem Strom du selbst nutzt: Im <a href="{url('rechner/')}">Rechner</a> siehst du Erzeugung und Eigenverbrauch pro Monat. Warum senkrechte Module im Winter aufholen, steht im <a href="{url('ratgeber/balkonkraftwerk-winter/')}">Winter-Ratgeber</a>.</p>
+</section>
+<section class="faq"><h2>Häufige Fragen</h2>{faq_html}</section>
+<p class="small">Weitere Monate: <a href="{url('monat/' + month_slug(prev_i) + '/')}">← {MONTHS_LONG[prev_i]}</a> · <a href="{url('monat/')}">Alle Monate</a> · <a href="{url('monat/' + month_slug(next_i) + '/')}">{MONTHS_LONG[next_i]} →</a></p>"""
+        urls.append(page(f"monat/{month_slug(i)}/", f"Balkonkraftwerk-Ertrag {MONTH_IN[i]}: {fmt(a90)}–{fmt(a35)} kWh | {C.SITE_NAME}",
+                         f"Wie viel Strom bringt ein Balkonkraftwerk {MONTH_IN[i]}? Durchschnitt {fmt(a90)} kWh am Geländer, {fmt(a35)} kWh aufgeständert, dazu Ranking der Städte und Bundesländer.",
+                         body, schema, [("Ertrag pro Monat", "monat/"), (mo, None)], active="staedte/", byline=True))
+
+    rows = "".join(
+        f'<tr><td><a href="{url("monat/" + month_slug(i) + "/")}">{MONTHS_LONG[i]}</a></td>{num_td(nm90[i], suffix=" kWh")}{num_td(nm35[i], suffix=" kWh")}<td class="num">{fmt(nat_m["S90"][i] / yearly90 * 100, 1)} %</td></tr>'
+        for i in range(12))
+    body = f"""<h1>Balkonkraftwerk-Ertrag pro Monat</h1>
+<p class="lead">Wie viel Strom ein Balkonkraftwerk in welchem Monat erzeugt, zeigt die Tabelle für ein Set mit {C.SET_WP} Wp (Durchschnitt aus {len(cities)} deutschen Städten). Klick auf einen Monat für Städte-Ranking und Bundesländer.</p>
+<figure>{bars(nm90, nm35)}
+<div class="legend"><span>Senkrecht am Geländer (90°)</span><span class="alt">Aufgeständert (35°)</span></div>
+<figcaption>kWh pro Monat, {C.SET_WP} Wp, Ausrichtung Süd, deutscher Durchschnitt</figcaption></figure>
+<div class="scroll"><table><thead><tr><th scope="col">Monat</th><th class="num" scope="col">Geländer 90°</th><th class="num" scope="col">Aufgeständert 35°</th><th class="num" scope="col">Anteil am Jahr (90°)</th></tr></thead><tbody>{rows}</tbody></table></div>
+<p>Im Sommer erzeugt ein Balkonkraftwerk ein Vielfaches des Winterertrags. Wegen der 800-W-Grenze des Wechselrichters und des Verbrauchs wird davon aber nicht alles genutzt. Mehr dazu im <a href="{url('ratgeber/balkonkraftwerk-winter/')}">Winter-Ratgeber</a> und in der <a href="{url('methodik/')}">Methodik</a>.</p>"""
+    urls.append(page("monat/", f"Balkonkraftwerk-Ertrag pro Monat: Tabelle für alle 12 Monate | {C.SITE_NAME}",
+                     f"Ertrag eines Balkonkraftwerks in jedem Monat: Durchschnitt für Deutschland, Städte- und Bundesländer-Ranking, senkrecht und aufgeständert verglichen.",
+                     body, crumbs=[("Ertrag pro Monat", None)], active="staedte/", byline=True))
+    return urls
+
+
 # ---------------------------------------------------------------- Hauptprogramm
 
 def main():
@@ -426,6 +527,8 @@ Am sonnigsten ist <a href="{url('stadt/' + slug(top[0]) + '/')}">{e(top[0])}</a>
                          f"Wie viel bringt ein Balkonkraftwerk in {s}? Ertrag, Ersparnis und Ranking für {len(ns)} Städte auf Basis von PVGIS-Daten.",
                          body, crumbs=[("Städte", "staedte/"), (s, None)], active="staedte/"))
 
+    urls += build_months(cities, by_state, state_rank, nat_m)
+
     # Städteübersicht
     big = sorted(cities, key=lambda n: -cities[n]["pop"])
     datalist = f'<datalist id="citylist">{"".join(f"<option value=\"{e(n)}\">" for n in big)}</datalist>'
@@ -435,6 +538,7 @@ Am sonnigsten ist <a href="{url('stadt/' + slug(top[0]) + '/')}">{e(top[0])}</a>
 {search_form()}{datalist}
 <h2>Bundesländer-Ranking</h2>
 <div class="scroll"><table><thead><tr><th class="num">#</th><th>Bundesland</th><th class="num">Ertrag ({C.SET_WP} Wp, 35° Süd)</th><th class="num">Städte</th></tr></thead><tbody>{state_rows}</tbody></table></div>
+<p>{more(url('monat/'), 'Ertrag pro Monat: Ranking für Januar bis Dezember')}</p>
 <h2>Die sonnigsten Städte</h2>
 <div class="scroll"><table>{TABLE_HEAD}<tbody>{city_rows(by_yield[:25], ctx)}</tbody></table></div>
 <h2>Alle Städte nach Einwohnerzahl</h2>

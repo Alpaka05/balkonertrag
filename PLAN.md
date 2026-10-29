@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 29.10.2026 | Neuer Ratgeber „Balkonkraftwerk-Glossar“ (ca. 20 Begriffe von Wp bis MaStR, mit Simulationswerten, verlinkt zu den Ratgebern); CSS für Definitionslisten |
 | 26.10.2026 | Monatsseiten: /monat/ (Übersicht mit Diagramm) und 12 Seiten /monat/januar/ … /dezember/ (Durchschnittsertrag 90°/35°, Top-15-Städte, Bundesländer-Ranking, FAQ mit Schema); verlinkt aus Städteübersicht und Footer |
 | 19.10.2026 | Neuer Ratgeber „Balkonkraftwerk und Verschattung“ (Simulationstabelle Ertragsverlust 0–50 %, Schattenquellen, Prüf-Checkliste), verlinkt aus Ausrichtung und Kaufen |
 | 15.10.2026 | Neuer Ratgeber „Balkonkraftwerk versichern“ (Hausrat, Haftpflicht, Melde-Checkliste, Quellen Verbraucherzentrale/GDV), verlinkt aus Mieter-Ratgeber |
@@ -44,7 +45,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 - Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich
 - Einbett-Widget für andere Websites (Backlinks), Seite /einbinden/
 - Vergleichstabellen Speicher/Sets mit Datum (data/produkte.json), sobald Partnerprogramme laufen
-- Ratgeber: Halterungen, Glossar (Versicherung und Verschattung sind erledigt) (Stromzähler/Schuko/Kaufen-Checkliste sind erledigt; Zählerwechsel-Kosten ggf. mit Primärquelle nachtragen)
+- Ratgeber: Halterungen (Glossar, Versicherung und Verschattung sind erledigt) (Stromzähler/Schuko/Kaufen-Checkliste sind erledigt; Zählerwechsel-Kosten ggf. mit Primärquelle nachtragen)
 - Monatsseiten ausbauen: Winter-Ranking pro Stadt in Ratgeber „Winter“ verlinken, ggf. Stadt×Monat-Texte (nur mit echtem Mehrwert)
 - Vergleichsseiten für Speicher und Sets (dort sind die Provisionen am höchsten)
 - Weitere Rechner-Seiten mit eigenen Suchbegriffen (Wärmepumpe, Stromkosten Geräte, PV-Dach)

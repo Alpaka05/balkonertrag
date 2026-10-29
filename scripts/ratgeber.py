@@ -415,6 +415,52 @@ def articles(x):
 </ol>
 <p class="note">Stand: Oktober 2026. Keine Rechts- oder Elektrikerberatung; maßgeblich sind die Normen, die Angaben der Bundesnetzagentur und dein Netzbetreiber.</p>""",
         },
+        {
+            "slug": "balkonkraftwerk-glossar",
+            "title": "Balkonkraftwerk-Glossar: Wp, VA, MaStR und mehr einfach erklärt",
+            "desc": "Was bedeuten Wp, kWh, VA, MaStR, Eigenverbrauch und Wieland-Steckdose? Die wichtigsten Begriffe rund ums Balkonkraftwerk kurz erklärt, mit Zahlen aus unseren Ertragsdaten.",
+            "html": f"""
+<p class="lead">Beim Balkonkraftwerk stolperst du schnell über Abkürzungen. Hier steht kurz und ohne Fachchinesisch, was sie bedeuten und warum sie für deine Kaufentscheidung wichtig sind.</p>
+<div class="box"><h2>Die drei wichtigsten Zahlen</h2><ul>
+<li><b>Wp</b> beschreibt die Leistung der Module (maximal 2.000 Wp erlaubt).</li>
+<li><b>VA / W</b> beschreibt, wie viel der Wechselrichter einspeist (maximal 800).</li>
+<li><b>kWh</b> ist der Strom, den du über das Jahr erzeugst und bezahlst.</li></ul></div>
+<h2>Leistung und Energie</h2>
+<dl>
+<dt>Wp (Watt-Peak)</dt><dd>Höchstleistung eines Moduls unter Laborbedingungen. Zwei Module mit je 450 Wp sind ein 900-Wp-Set. Im Alltag erreichst du diesen Wert fast nie, weil Sonnenstand, Temperatur und Wolken abweichen.</dd>
+<dt>W und VA (Watt, Voltampere)</dt><dd>Bei Wechselrichtern praktisch dasselbe. Das Gesetz begrenzt die Einspeisung auf 800 VA (§ 8 Abs. 5a EEG). Mehr Modulleistung ist erlaubt, der Überschuss geht an sonnigen Mittagen verloren („Kappung“). Ein {C.SET_WP}-Wp-Set verliert dadurch im deutschen Schnitt nur {fmt(s35['clipped'])} kWh im Jahr, ein 2.000-Wp-Set nach Süden dagegen {fmt(big[2000]['S35']['clipped'])} kWh.</dd>
+<dt>kWh (Kilowattstunde)</dt><dd>Die Einheit auf deiner Stromrechnung. Ein {C.SET_WP}-Wp-Set erzeugt im deutschen Schnitt bei Süd und 35° etwa {fmt(s35['pv'])} kWh im Jahr; bei {C.STROMPREIS_CT} ct/kWh sind das, soweit du den Strom selbst nutzt, {euro(s35['eur'])} Ersparnis.</dd>
+<dt>Spezifischer Ertrag (kWh/kWp)</dt><dd>Jahresertrag pro installiertem Kilowatt-Peak. Damit lassen sich Standorte und Ausrichtungen fair vergleichen, egal wie groß das Set ist. Die <a href="{url('staedte/')}">Städteübersicht</a> zeigt ihn für {len(cy)} Städte.</dd>
+</dl>
+<h2>Nutzung des Stroms</h2>
+<dl>
+<dt>Eigenverbrauch</dt><dd>Der Anteil des Solarstroms, den du direkt im Haushalt nutzt. Nur dieser Anteil spart Geld. Bei {C.SET_WP} Wp und {fmt(V)} kWh Jahresverbrauch sind es in unserer Simulation {fmt(s35['used'] / s35['pv'] * 100)} %.</dd>
+<dt>Einspeisung</dt><dd>Strom, den du nicht selbst verbrauchst, fließt ins öffentliche Netz. Eine Vergütung gibt es bei Steckersolargeräten in der Regel nicht; rechne ihn nicht als Einnahme.</dd>
+<dt>Grundlast</dt><dd>Der Strom, den dein Haushalt rund um die Uhr zieht (Kühlschrank, Router, Standby). Sie bestimmt, wie viel Solarstrom du auch ohne Speicher sofort verbrauchst.</dd>
+<dt>Speicher</dt><dd>Eine Batterie, die Mittagsüberschuss für den Abend aufhebt. Rechnet sich meist nur bei hohem Abendverbrauch; Details im <a href="{url('ratgeber/speicher-lohnt-sich/')}">Speicher-Ratgeber</a> und im <a href="{url('speicher-rechner/')}">Speicher-Rechner</a>.</dd>
+<dt>Amortisation</dt><dd>Die Zeit, bis die jährliche Ersparnis den Kaufpreis eingespielt hat. Bei {euro(C.SET_PREIS_EUR)} Kaufpreis und {euro(s35['eur'])} Ersparnis sind es rund {fmt(C.SET_PREIS_EUR / s35['eur'], 1)} Jahre.</dd>
+</dl>
+<h2>Technik</h2>
+<dl>
+<dt>Wechselrichter</dt><dd>Wandelt den Gleichstrom der Module in netzüblichen Wechselstrom um. Er begrenzt die Einspeisung auf 800 VA.</dd>
+<dt>Mikrowechselrichter</dt><dd>Kleiner Wechselrichter, der hinter den Modulen hängt. Typisch für Balkonkraftwerke.</dd>
+<dt>Steckersolargerät</dt><dd>Der amtliche Begriff für das Balkonkraftwerk: Module plus Wechselrichter, die du per Stecker anschließt.</dd>
+<dt>Schuko-Stecker</dt><dd>Der normale Haushaltsstecker. Nach DIN VDE V 0126-95 vorgesehen bis 960 Wp Modulleistung.</dd>
+<dt>Wieland-Steckdose</dt><dd>Spezielle Einspeisesteckdose, die ein Elektriker setzt. Nötig für mehr Modulleistung und bei manchen Förderprogrammen. Mehr im <a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Kauf-Ratgeber</a>.</dd>
+<dt>Neigung und Azimut</dt><dd>Neigung ist der Winkel der Module zur Waagerechten (90° = senkrecht am Geländer), Azimut die Himmelsrichtung. Beides entscheidet über den Ertrag, siehe <a href="{url('ratgeber/ausrichtung-neigung/')}">Ausrichtung und Neigung</a>.</dd>
+<dt>Verschattung</dt><dd>Schatten von Bäumen, Balkonen oder Nachbarhäusern. Schon teilweiser Schatten kann den Ertrag deutlich senken, siehe <a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">Verschattung</a>.</dd>
+</dl>
+<h2>Recht und Behörden</h2>
+<dl>
+<dt>MaStR (Marktstammdatenregister)</dt><dd>Das Register der Bundesnetzagentur. Dort trägst du dein Gerät innerhalb eines Monats nach Inbetriebnahme ein. Mehr im <a href="{url('ratgeber/balkonkraftwerk-anmelden/')}">Anmelde-Ratgeber</a>.</dd>
+<dt>Netzbetreiber und Messstellenbetreiber</dt><dd>Der Netzbetreiber verwaltet das Stromnetz vor Ort, der Messstellenbetreiber den Zähler. Beide müssen dich für ein Balkonkraftwerk nicht mehr gesondert anmelden lassen.</dd>
+<dt>Ferraris-Zähler</dt><dd>Der alte Zähler mit drehender Scheibe. Er darf bei Einspeisung vorübergehend rückwärts laufen, bis er getauscht wird.</dd>
+<dt>Solarpaket I</dt><dd>Das Gesetzespaket, das die Regeln für Balkonkraftwerke seit 2024 vereinfacht hat (800 VA, vereinfachte Anmeldung, Duldung alter Zähler).</dd>
+<dt>Privilegierung</dt><dd>Steckersolargeräte gehören seit Oktober 2024 zu den „privilegierten“ Maßnahmen: Mieter und Wohnungseigentümer haben Anspruch auf Erlaubnis. Mehr im <a href="{url('ratgeber/balkonkraftwerk-mieter/')}">Mieter-Ratgeber</a>.</dd>
+</dl>
+<p>Willst du wissen, was das alles für deinen Standort bedeutet? Im {more(url('rechner/'), 'Rechner')} stellst du Ausrichtung, Leistung und Verbrauch selbst ein.</p>
+<p class="note">Stand: Oktober 2026. Begriffserklärungen ohne Rechts- oder Elektrikerberatung.</p>""",
+        },
     ]
 
 

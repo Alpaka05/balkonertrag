@@ -28,7 +28,7 @@ CO2_KG_PRO_KWH = 0.36       # Emissionsfaktor Strommix, Umweltbundesamt (rund)
 KALIBRIERUNG = 0.20
 ETA = 0.95                  # Wirkungsgrad je Lade- und Entladevorgang (zusammen ~90 %)
 STANDBY_W = 8               # Eigenverbrauch des Speichers (Elektronik, Standby)
-ASSET_VERSION = "2"
+ASSET_VERSION = "3"
 
 # IndexNow-Schlüssel (Bing/Yandex); die Datei {KEY}.txt liegt im Seiten-Stamm
 INDEXNOW_KEY = "c850840793d447458f63d22a1aaf0cf5"

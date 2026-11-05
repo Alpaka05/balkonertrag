@@ -70,6 +70,10 @@ def articles(x):
         f"<tr><th scope=row>{'unverschattet' if f == 0 else fmt(f * 100) + ' % weniger Ertrag'}</th><td class=num>{fmt(r['pv'])} kWh</td><td class=num>{euro(r['eur'])}</td><td class=num>{fmt(C.SET_PREIS_EUR / r['eur'], 1)} Jahre</td></tr>"
         for f, r in shade.items())
 
+    mount_rows = "".join(
+        f"<tr><th scope=row>{lbl}</th><td class=num>{g}°</td><td class=num>{fmt(n['S' + str(g)] * KWP)} kWh</td><td class=num>{fmt(rel('S' + str(g)))} %</td><td class=num>{euro(run('S' + str(g), C.SET_WP)['eur'])}</td></tr>"
+        for lbl, g in (("Geländer senkrecht", 90), ("Geländer, oben angekippt", 60), ("Aufgeständert / Flachdach", 35)))
+
     speicher_extra = s90b["eur"] - s90["eur"]
     big_extra = big_b["eur"] - big[2000]["S35"]["eur"]
 
@@ -414,6 +418,48 @@ def articles(x):
 <li>Nach der Montage: Registrierung im Marktstammdatenregister.</li>
 </ol>
 <p class="note">Stand: Oktober 2026. Keine Rechts- oder Elektrikerberatung; maßgeblich sind die Normen, die Angaben der Bundesnetzagentur und dein Netzbetreiber.</p>""",
+        },
+        {
+            "slug": "balkonkraftwerk-halterung",
+            "title": "Balkonkraftwerk Halterung und Montage: Geländer, Boden oder Wand?",
+            "desc": "Welche Halterung passt zu deinem Balkon? Geländer, Aufständerung oder Wand im Vergleich, mit Ertrag je Neigung aus unseren Daten und einer Sicherheits-Checkliste gegen Absturz und Wind.",
+            "html": f"""
+<p class="lead">Die Halterung entscheidet über Ertrag und Sicherheit: Ein Modul am Geländer wirkt bei Sturm wie ein Segel, und die Neigung bestimmt, wie viel Strom du bekommst. Hier siehst du die gängigen Montagearten und was sie kosten.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Nimm nur Halterungen, deren Hersteller sie für dein Geländer (Form, Querschnitt) und deine Modulgröße freigegeben hat.</li>
+<li>Senkrecht am Geländer bringt etwa {fmt(rel('S90'))} % des Ertrags bei optimaler Süd-Neigung von 35°, aufgeständert sind es 100 %.</li>
+<li>Montiere nie so, dass Module herabfallen können. Für Schäden haftest du, auch wenn die Versicherung zahlt, nur bei regelkonformer Montage.</li></ul></div>
+<h2>Die drei gängigen Montagearten</h2>
+<ul>
+<li><b>Geländerhalterung:</b> Klemmen oder Haken am Balkongeländer. Am häufigsten, weil sie ohne Bohren auskommt. Die Module hängen meist senkrecht oder lassen sich je nach System ankippen.</li>
+<li><b>Aufständerung am Boden oder auf dem Flachdach:</b> Ein Gestell stellt das Modul im optimalen Winkel auf. Es braucht Fläche und muss gegen Wegwehen beschwert oder verschraubt werden.</li>
+<li><b>Wandmontage:</b> Befestigung an der Fassade. Sie erfordert meist Bohrungen und damit bei Miete die Zustimmung des Vermieters und bei Eigentum den Beschluss der Gemeinschaft (<a href="{url('ratgeber/balkonkraftwerk-mieter/')}">Ratgeber Mieter</a>).</li>
+</ul>
+<h2>Was die Neigung am Ertrag ändert</h2>
+<p>Alle Werte: {C.SET_WP} Wp, Süd, Durchschnitt aus {len(cy)} Städten, {fmt(V)} kWh Verbrauch, {C.STROMPREIS_CT} ct/kWh, ohne Verschattung (Stundensimulation).</p>
+<div class="scroll"><table><thead><tr><th></th><th class=num>Neigung</th><th class=num>Ertrag</th><th class=num>Rel.</th><th class=num>Ersparnis/Jahr</th></tr></thead><tbody>{mount_rows}</tbody></table></div>
+<p>Senkrecht am Geländer verlierst du im Jahr spürbar Ertrag, bekommst aber im Winter mehr (<a href="{url('ratgeber/balkonkraftwerk-winter/')}">Winter-Ratgeber</a>) und bist im Sommer weniger von der 800-W-Grenze gekappt. Alle Neigungen und Himmelsrichtungen findest du in <a href="{url('ratgeber/ausrichtung-neigung/')}">Ausrichtung und Neigung</a>.</p>
+<h2>Sicherheit: Absturz, Wind, Schnee</h2>
+<p>Module wiegen meist rund 20–25 kg pro Stück. Gefährlicher als das Gewicht ist die Windlast: Ein Modul am Geländer wirkt wie ein Segel, bei Sturm entstehen Kräfte weit über dem Eigengewicht. Die Verbraucherzentralen weisen darauf hin, dass Balkonkraftwerke gegen Absturz sowie Wind- und Schneelasten gesichert sein müssen. Konkret:</p>
+<ol>
+<li>Prüfe, ob das Geländer die zusätzliche Last trägt. Bei Glas-, Holz- oder dünnen Geländern frag den Hersteller oder einen Fachbetrieb.</li>
+<li>Nimm eine Halterung mit Herstellerfreigabe für deinen Geländerquerschnitt und die Modulgröße. Zusätzliche Löcher oder Eigenbauten ohne Freigabe sind kein Ersatz.</li>
+<li>Sichere die Module zusätzlich mit einem Seil oder einer Kette gegen Herabfallen, wenn der Hersteller das vorsieht.</li>
+<li>Prüfe die Schrauben nach den ersten Stürmen und danach regelmäßig, etwa im Frühjahr und Herbst.</li>
+<li>Sind Fußwege oder Nachbarbalkone unter dir, sei besonders streng: Ein herabfallendes Modul kann Menschen verletzen.</li>
+<li>Bei hohen Etagen, schwierigen Geländern oder Zweifel: Lass die Montage von einem Fachbetrieb machen.</li>
+</ol>
+<p>Zur Haftung: Die Privathaftpflicht zahlt bei Schäden meist nur, wenn die Montage regelkonform war. Was du bei Hausrat und Haftpflicht prüfen solltest, steht im <a href="{url('ratgeber/balkonkraftwerk-versicherung/')}">Versicherungs-Ratgeber</a>.</p>
+<h2>Checkliste vor der Bestellung</h2>
+<ul>
+<li>Geländerform (rund, eckig, Glas, Holz) und Querschnitt gemessen.</li>
+<li>Halterung und Modulmaße passen zusammen und sind vom Hersteller freigegeben.</li>
+<li>Kein Schatten auf den Modulen, vor allem mittags (<a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">Verschattung</a>).</li>
+<li>Vermieter oder Eigentümergemeinschaft gefragt, besonders bei Bohrungen (<a href="{url('vermieter-antrag/')}">Antrag-Generator</a>).</li>
+<li>Wechselrichter und Kabel liegen geschützt und nicht in Gehwegen oder Türöffnungen.</li>
+<li>Weitere Punkte: <a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Kauf-Checkliste</a>.</li>
+</ul>
+<p class="note">Stand November 2026. Keine Statik- oder Rechtsberatung; maßgeblich sind die Montageanleitung des Herstellers und die Hinweise der <a href="https://www.verbraucherzentrale.de" rel="noopener">Verbraucherzentralen</a>. Die Tabelle ist eine Modellrechnung, keine Messung.</p>""",
         },
         {
             "slug": "balkonkraftwerk-glossar",

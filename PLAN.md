@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 09.11.2026 | Neuer Ratgeber „Lohnt sich ein Balkonkraftwerk?“ (Amortisation nach Verbrauch × Ausrichtung, Strompreis-Sensitivität, Standort best/worst, Wann es sich nicht lohnt; alles aus der Simulation), verlinkt im Ratgeber-Index |
 | 05.11.2026 | Neuer Ratgeber „Balkonkraftwerk Halterung und Montage“ (Geländer/Aufständerung/Wand, Ertragstabelle je Neigung aus der Simulation, Sicherheits-Checkliste Wind/Absturz, Haftung), verlinkt im Ratgeber-Index |
 | 29.10.2026 | Neuer Ratgeber „Balkonkraftwerk-Glossar“ (ca. 20 Begriffe von Wp bis MaStR, mit Simulationswerten, verlinkt zu den Ratgebern); CSS für Definitionslisten |
 | 26.10.2026 | Monatsseiten: /monat/ (Übersicht mit Diagramm) und 12 Seiten /monat/januar/ … /dezember/ (Durchschnittsertrag 90°/35°, Top-15-Städte, Bundesländer-Ranking, FAQ mit Schema); verlinkt aus Städteübersicht und Footer |
@@ -43,6 +44,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 ## Nächste Ausbaustufen
 
+- Ratgeber „lohnt sich“ aus Stadtseiten (FAQ) und Startseite verlinken; Ratgeber „Balkonkraftwerk ohne Südbalkon“ (Nord/Ost/West-Szenarien)
 - Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich
 - Einbett-Widget für andere Websites (Backlinks), Seite /einbinden/
 - Vergleichstabellen Speicher/Sets mit Datum (data/produkte.json), sobald Partnerprogramme laufen

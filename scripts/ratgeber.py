@@ -74,6 +74,26 @@ def articles(x):
         f"<tr><th scope=row>{lbl}</th><td class=num>{g}°</td><td class=num>{fmt(n['S' + str(g)] * KWP)} kWh</td><td class=num>{fmt(rel('S' + str(g)))} %</td><td class=num>{euro(run('S' + str(g), C.SET_WP)['eur'])}</td></tr>"
         for lbl, g in (("Geländer senkrecht", 90), ("Geländer, oben angekippt", 60), ("Aufgeständert / Flachdach", 35)))
 
+    # Lohnt-sich-Artikel: Amortisation nach Verbrauch, Ausrichtung, Strompreis, Standort
+    def amort(r, price=C.SET_PREIS_EUR):
+        return price / r["eur"]
+
+    ls_orient = (("Süd, aufgeständert 35°", "S35"), ("Süd, senkrecht am Geländer", "S90"), ("Ost-West, 35°", "OW35"))
+    ls_rows = "".join(
+        f"<tr><th scope=row>{lbl}</th>" + "".join(
+            f"<td class=num>{euro(r['eur'])} <small>({fmt(amort(r), 1)} J.)</small></td>"
+            for r in (run(k, C.SET_WP, 0, v) for v in (1500, 2500, 4000))) + "</tr>"
+        for lbl, k in ls_orient)
+    ls_price = [(p_, model.run(nm["S35"], "S35", C.SET_WP, V, 0, p_)) for p_ in (25, 30, 35, 40, 45)]
+    ls_price_rows = "".join(
+        f"<tr><th scope=row>{p_} ct/kWh</th><td class=num>{euro(r['eur'])}</td><td class=num>{fmt(amort(r), 1)} Jahre</td></tr>" for p_, r in ls_price)
+    ls_best = model.run(cy[best]["m"]["S35"], "S35", C.SET_WP, V)
+    ls_worst = model.run(cy[worst]["m"]["S35"], "S35", C.SET_WP, V)
+    ls_base = run("S35", C.SET_WP)
+    ls_bad = run("S90", C.SET_WP, 0, 1500)
+    ls_20 = ls_base["eur"] * 20 - C.SET_PREIS_EUR
+    ls_share = ls_base["used"] / ls_base["pv"] * 100
+
     speicher_extra = s90b["eur"] - s90["eur"]
     big_extra = big_b["eur"] - big[2000]["S35"]["eur"]
 
@@ -418,6 +438,44 @@ def articles(x):
 <li>Nach der Montage: Registrierung im Marktstammdatenregister.</li>
 </ol>
 <p class="note">Stand: Oktober 2026. Keine Rechts- oder Elektrikerberatung; maßgeblich sind die Normen, die Angaben der Bundesnetzagentur und dein Netzbetreiber.</p>""",
+        },
+        {
+            "slug": "lohnt-sich-balkonkraftwerk",
+            "title": "Lohnt sich ein Balkonkraftwerk? Amortisation mit Rechenbeispielen",
+            "desc": "Wann rechnet sich ein Balkonkraftwerk? Ersparnis und Amortisation nach Stromverbrauch, Ausrichtung, Strompreis und Standort, berechnet mit Stundensimulation und PVGIS-Daten.",
+            "html": f"""
+<p class="lead">Ja, in den meisten Fällen: Ein {C.SET_WP}-Wp-Set für {euro(C.SET_PREIS_EUR)} spart bei durchschnittlichem Standort und Süd-Ausrichtung etwa {euro(ls_base['eur'])} im Jahr und hat sich nach rund {fmt(amort(ls_base), 1)} Jahren bezahlt gemacht. Hier siehst du, wovon das abhängt und wann es sich nicht lohnt.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Beispiel: {C.SET_WP} Wp, Süd, 35°, {fmt(V)} kWh Verbrauch, {C.STROMPREIS_CT} ct/kWh: {fmt(ls_base['used'])} kWh Eigennutzung, {euro(ls_base['eur'])} Ersparnis pro Jahr.</li>
+<li>Wie schnell es sich rechnet, hängt vor allem von der Ausrichtung und deinem Verbrauch ab. Der Standort in Deutschland macht deutlich weniger aus: zwischen {best} und {worst} liegen {fmt((ls_best['eur'] / ls_worst['eur'] - 1) * 100)} % Unterschied in der Ersparnis.</li>
+<li>Über 20 Jahre bleiben im Beispiel rund {euro(ls_20)} nach Abzug der Anschaffung (ohne Strompreisänderung, ohne Förderung, ohne Ersatzkosten).</li></ul></div>
+<h2>Die Rechnung</h2>
+<p>Ein Balkonkraftwerk spart nur den Strom, den du selbst verbrauchst. Was du ins Netz einspeist, wird in der Praxis nicht vergütet. Deshalb zählt der <b>Eigenverbrauch</b>: Im Beispiel nutzt du {fmt(ls_share)} % der Erzeugung selbst, der Rest geht ins Netz oder wird vom Wechselrichter bei 800 W gekappt. Die Ersparnis ist also Eigennutzung × Strompreis. Alle Werte stammen aus der Stundensimulation mit Standardlastprofil H25 (<a href="{url('methodik/')}">Methodik</a>) und sind eine Modellrechnung, keine Garantie.</p>
+<h2>Wie Verbrauch und Ausrichtung den Ertrag verändern</h2>
+<p>Ersparnis pro Jahr und Amortisation (in Klammern) für ein {C.SET_WP}-Wp-Set zu {euro(C.SET_PREIS_EUR)}, {C.STROMPREIS_CT} ct/kWh, Durchschnitt aus {len(cy)} Städten, ohne Verschattung:</p>
+<div class="scroll"><table><thead><tr><th>Ausrichtung</th><th class=num>1.500 kWh</th><th class=num>2.500 kWh</th><th class=num>4.000 kWh</th></tr></thead><tbody>{ls_rows}</tbody></table></div>
+<p>Je mehr du tagsüber verbrauchst, desto höher der Eigenverbrauch. Wer 1.500 kWh im Jahr verbraucht (Single, oft tagsüber außer Haus), nutzt weniger vom Solarstrom selbst als ein Haushalt mit Homeoffice. Im ungünstigen Fall (senkrecht am Geländer, nur {fmt(1500)} kWh) sind es {euro(ls_bad['eur'])} pro Jahr und {fmt(amort(ls_bad), 1)} Jahre bis zur Amortisation. Mehr zu den Winkeln: {more(url('ratgeber/ausrichtung-neigung/'), 'Ausrichtung und Neigung')}</p>
+<h2>Wie der Strompreis die Amortisation verschiebt</h2>
+<div class="scroll"><table><thead><tr><th>Strompreis</th><th class=num>Ersparnis/Jahr</th><th class=num>Amortisation</th></tr></thead><tbody>{ls_price_rows}</tbody></table></div>
+<p>Sinkende Strompreise verlängern die Amortisation, steigende verkürzen sie. Aktuelle Tarife vergleichst du auf Vergleichsportalen; die {C.STROMPREIS_CT} ct sind ein Richtwert (Stand Oktober 2026).</p>
+<h2>Und der Standort?</h2>
+<p>Das ertragreichste {best} liefert mit {C.SET_WP} Wp, Süd, 35° rund {fmt(cy[best]['y']['S35'] * KWP)} kWh, das schwächste {worst} {fmt(cy[worst]['y']['S35'] * KWP)} kWh. Das ergibt {euro(ls_best['eur'])} gegenüber {euro(ls_worst['eur'])} Ersparnis pro Jahr. Der Standort entscheidet also selten, ob es sich lohnt. Die Werte für deine Stadt: {more(url('staedte/'), 'Stadt auswählen')}</p>
+<h2>Wann sich ein Balkonkraftwerk eher nicht lohnt</h2>
+<ul>
+<li><b>Dauerhafter Schatten</b> auf den Modulen: Schon 30 % weniger Ertrag verlängern die Amortisation spürbar (<a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">Verschattung</a>).</li>
+<li><b>Sehr niedriger Tagesverbrauch</b>, etwa wenn tagsüber niemand zu Hause ist und kaum Grundlast läuft.</li>
+<li><b>Nordseite</b> oder stark verbaute Balkone.</li>
+<li><b>Sehr teures Set oder Speicher:</b> Ein Speicher kostet {euro(C.SPEICHER_PREIS_EUR)} extra und rechnet sich meist deutlich später (<a href="{url('ratgeber/speicher-lohnt-sich/')}">Speicher-Ratgeber</a>).</li>
+</ul>
+<h2>So bringst du die Amortisation nach vorn</h2>
+<ol>
+<li>Einen Platz mit wenig Schatten wählen; das bringt meist mehr als jede Zusatzausgabe.</li>
+<li>Verbrauch in die Mittagsstunden legen: Waschmaschine, Spülmaschine und Trockner tagsüber laufen lassen.</li>
+<li>Preise vergleichen und auf Herstellerfreigaben achten (<a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Kauf-Checkliste</a>).</li>
+<li>Vorher prüfen, ob dein Ort einen Zuschuss zahlt (<a href="{url('ratgeber/balkonkraftwerk-foerderung/')}">Förderung</a>).</li>
+</ol>
+<p>Mit deinen eigenen Werten rechnest du im {more(url('rechner/'), 'Ertragsrechner')}.</p>
+<p class="note">Stand November 2026. Modellrechnung auf Basis von PVGIS-Daten, Standardlastprofil und den hier genannten Annahmen; die tatsächliche Ersparnis hängt von Verbrauchsverhalten, Wetter und Strompreis ab. Keine Finanz- oder Steuerberatung.</p>""",
         },
         {
             "slug": "balkonkraftwerk-halterung",

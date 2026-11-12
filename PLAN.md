@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 12.11.2026 | Neuer Ratgeber „Balkonkraftwerk ohne Südbalkon“ (Ersparnis und Amortisation je Himmelsrichtung, 35°/90°, Ost/West kombiniert, mehr Module bei schwacher Ausrichtung; Nord bewusst ohne Zahlen, da keine Daten); Links aus FAQ „Lohnt sich“/„Ausrichtung“ auf allen Stadtseiten (962 Seiten) und aus dem Lohnt-sich-Ratgeber |
 | 09.11.2026 | Neuer Ratgeber „Lohnt sich ein Balkonkraftwerk?“ (Amortisation nach Verbrauch × Ausrichtung, Strompreis-Sensitivität, Standort best/worst, Wann es sich nicht lohnt; alles aus der Simulation), verlinkt im Ratgeber-Index |
 | 05.11.2026 | Neuer Ratgeber „Balkonkraftwerk Halterung und Montage“ (Geländer/Aufständerung/Wand, Ertragstabelle je Neigung aus der Simulation, Sicherheits-Checkliste Wind/Absturz, Haftung), verlinkt im Ratgeber-Index |
 | 29.10.2026 | Neuer Ratgeber „Balkonkraftwerk-Glossar“ (ca. 20 Begriffe von Wp bis MaStR, mit Simulationswerten, verlinkt zu den Ratgebern); CSS für Definitionslisten |
@@ -44,7 +45,8 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 ## Nächste Ausbaustufen
 
-- Ratgeber „lohnt sich“ aus Stadtseiten (FAQ) und Startseite verlinken; Ratgeber „Balkonkraftwerk ohne Südbalkon“ (Nord/Ost/West-Szenarien)
+- Nord-Ausrichtung (azimuth 180) in PVGIS nachladen, um Nordbalkon im Ratgeber „ohne Südbalkon“ mit Zahlen zu belegen
+- Startseite: Teaser auf „Lohnt sich?“ und „Ohne Südbalkon“
 - Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich
 - Einbett-Widget für andere Websites (Backlinks), Seite /einbinden/
 - Vergleichstabellen Speicher/Sets mit Datum (data/produkte.json), sobald Partnerprogramme laufen

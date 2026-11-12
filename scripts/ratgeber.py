@@ -94,6 +94,19 @@ def articles(x):
     ls_20 = ls_base["eur"] * 20 - C.SET_PREIS_EUR
     ls_share = ls_base["used"] / ls_base["pv"] * 100
 
+    # Ohne Südbalkon: jede Himmelsrichtung, senkrecht und aufgeständert
+    nos = (("Süd", "S"), ("Südost", "SO"), ("Südwest", "SW"), ("Ost", "O"), ("West", "W"))
+    os_rows = "".join(
+        f"<tr><th scope=row>{lbl}</th>" + "".join(
+            f"<td class=num>{euro(run(k + str(g), C.SET_WP)['eur'])} <small>({fmt(amort(run(k + str(g), C.SET_WP)), 1)} J.)</small></td>" for g in (35, 90)) + "</tr>"
+        for lbl, k in nos)
+    os_w90, os_o90, os_s90 = run("W90", C.SET_WP), run("O90", C.SET_WP), run("S90", C.SET_WP)
+    os_ow90 = run("OW90", C.SET_WP)
+    os_sw35 = run("SW35", C.SET_WP)
+    os_w15 = run("W15", C.SET_WP)
+    os_big_w = run("W35", 1600)
+    os_big_s = run("S35", 1600)
+
     speicher_extra = s90b["eur"] - s90["eur"]
     big_extra = big_b["eur"] - big[2000]["S35"]["eur"]
 
@@ -464,7 +477,7 @@ def articles(x):
 <ul>
 <li><b>Dauerhafter Schatten</b> auf den Modulen: Schon 30 % weniger Ertrag verlängern die Amortisation spürbar (<a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">Verschattung</a>).</li>
 <li><b>Sehr niedriger Tagesverbrauch</b>, etwa wenn tagsüber niemand zu Hause ist und kaum Grundlast läuft.</li>
-<li><b>Nordseite</b> oder stark verbaute Balkone.</li>
+<li><b>Nordseite</b> oder stark verbaute Balkone. Ost und West dagegen rechnen sich meist (<a href="{url('ratgeber/balkonkraftwerk-ohne-suedbalkon/')}">Balkon ohne Süd</a>).</li>
 <li><b>Sehr teures Set oder Speicher:</b> Ein Speicher kostet {euro(C.SPEICHER_PREIS_EUR)} extra und rechnet sich meist deutlich später (<a href="{url('ratgeber/speicher-lohnt-sich/')}">Speicher-Ratgeber</a>).</li>
 </ul>
 <h2>So bringst du die Amortisation nach vorn</h2>
@@ -476,6 +489,41 @@ def articles(x):
 </ol>
 <p>Mit deinen eigenen Werten rechnest du im {more(url('rechner/'), 'Ertragsrechner')}.</p>
 <p class="note">Stand November 2026. Modellrechnung auf Basis von PVGIS-Daten, Standardlastprofil und den hier genannten Annahmen; die tatsächliche Ersparnis hängt von Verbrauchsverhalten, Wetter und Strompreis ab. Keine Finanz- oder Steuerberatung.</p>""",
+        },
+        {
+            "slug": "balkonkraftwerk-ohne-suedbalkon",
+            "title": "Balkonkraftwerk ohne Südbalkon: Lohnt sich Ost, West oder Südwest?",
+            "desc": "Dein Balkon zeigt nach Osten oder Westen? Ertrag, Ersparnis und Amortisation für jede Himmelsrichtung, senkrecht und aufgeständert, berechnet aus PVGIS-Daten und Stundensimulation.",
+            "html": f"""
+<p class="lead">Du brauchst keinen Südbalkon. Ein {C.SET_WP}-Wp-Set senkrecht an einem Westbalkon spart im Beispiel noch rund {euro(os_w90['eur'])} im Jahr und hat sich nach etwa {fmt(amort(os_w90), 1)} Jahren bezahlt; ein Ostbalkon liegt bei {euro(os_o90['eur'])}.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Südost und Südwest sind fast so gut wie Süd: aufgeständert verlierst du nur etwa {fmt(100 - rel('SW35'))} %.</li>
+<li>Ost und West senkrecht bringen etwa {fmt(rel('W90') / rel('S90') * 100)} % des Ertrags einer senkrechten Süd-Montage, rechnen sich aber meist trotzdem.</li>
+<li>Zum Ankippen: Nach Osten oder Westen ist eine flache Neigung besser als eine steile. Schon 15° bringen im Beispiel {euro(os_w15['eur'])} statt {euro(os_w90['eur'])}.</li></ul></div>
+<h2>Ersparnis nach Himmelsrichtung</h2>
+<p>{C.SET_WP} Wp, {fmt(V)} kWh Verbrauch, {C.STROMPREIS_CT} ct/kWh, Set für {euro(C.SET_PREIS_EUR)}, Durchschnitt aus {len(cy)} Städten, ohne Verschattung. Ersparnis pro Jahr, in Klammern die Amortisation:</p>
+<div class="scroll"><table><thead><tr><th>Ausrichtung</th><th class=num>35° aufgeständert</th><th class=num>90° Geländer</th></tr></thead><tbody>{os_rows}</tbody></table></div>
+<p>Die Werte stammen aus der Stundensimulation mit Standardlastprofil (<a href="{url('methodik/')}">Methodik</a>), nicht aus einer einfachen Jahressumme. Das ist wichtig: Ost- und Westmodule erzeugen weniger, der Strom verteilt sich aber breiter über den Tag, sodass ein größerer Teil davon im Haushalt gebraucht wird.</p>
+<h2>Ost, West oder beides?</h2>
+<ul>
+<li><b>Nur Westseite:</b> Der Strom kommt am Nachmittag und frühen Abend. Das passt, wenn du nachmittags zu Hause bist oder abends kochst.</li>
+<li><b>Nur Ostseite:</b> Der Strom kommt am Vormittag. Gut bei Homeoffice oder Frühstück, weniger gut bei Schichtarbeit am Morgen.</li>
+<li><b>Ost und West kombiniert</b> (zwei Balkone oder Eckbalkon): senkrecht rund {euro(os_ow90['eur'])} im Jahr bei {fmt(os_ow90['pv'])} kWh Erzeugung. Mehr dazu im <a href="{url('ratgeber/ost-west/')}">Ost-West-Ratgeber</a>.</li>
+<li><b>Südwest statt Süd:</b> Aufgeständert {euro(os_sw35['eur'])} statt {euro(run('S35', C.SET_WP)['eur'])}. Der Unterschied ist klein, der Strom kommt aber später am Tag.</li>
+</ul>
+<h2>Mehr Module, wenn die Ausrichtung schwach ist?</h2>
+<p>Die Steckdose begrenzt die Einspeisung auf 800 VA, die Module dürfen mehr Leistung haben (<a href="{url('ratgeber/2000-watt/')}">2000-Watt-Ratgeber</a>). Bei Ost oder West wird die Grenze seltener erreicht, zusätzliche Module bringen deshalb mehr als nach Süden. Beispiel mit 1.600 Wp aufgeständert: West {euro(os_big_w['eur'])} im Jahr, Süd {euro(os_big_s['eur'])}. Ob die Mehrkosten sich rechnen, hängt vom Preis der zusätzlichen Module ab; die Simulation berücksichtigt nur den Mehrertrag.</p>
+<h2>Und ein Nordbalkon?</h2>
+<p>Für Nord haben wir keine Ertragsdaten ausgewertet, deshalb nennen wir keine Zahl. Ohne direkte Sonne liefern Module nur diffuses Licht; in der Regel lohnt sich ein Balkonkraftwerk dort kaum. Prüfe eher, ob das Geländer, ein Fensterbrett, die Garage oder ein Gartenplatz mit Sonne in Frage kommt.</p>
+<h2>So gehst du vor</h2>
+<ol class="steps">
+<li><b>Himmelsrichtung bestimmen:</b> Kompass-App am Balkon, dann in der Tabelle die nächstliegende Zeile wählen.</li>
+<li><b>Schatten prüfen:</b> Er kostet oft mehr als die Ausrichtung (<a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">Verschattung</a>).</li>
+<li><b>Neigung wählen:</b> Bei Ost und West lieber flach ankippen als senkrecht hängen lassen (<a href="{url('ratgeber/balkonkraftwerk-halterung/')}">Halterung</a>).</li>
+<li><b>Für deine Stadt nachrechnen:</b> Im {more(url('rechner/'), 'Ertragsrechner')} wählst du Ausrichtung, Neigung und Verbrauch frei.</li>
+</ol>
+<p>Ob sich das Ganze insgesamt für dich lohnt, zeigt der Ratgeber <a href="{url('ratgeber/lohnt-sich-balkonkraftwerk/')}">Lohnt sich ein Balkonkraftwerk?</a>.</p>
+<p class="note">Stand November 2026. Modellrechnung auf Basis von PVGIS-Daten, Standardlastprofil und den genannten Annahmen; keine Garantie.</p>""",
         },
         {
             "slug": "balkonkraftwerk-halterung",

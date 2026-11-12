@@ -298,14 +298,16 @@ def build_city(name, c, ctx):
          f"schräg aufgeständert (35°) etwa {fmt(kwh35)} kWh. Grundlage sind langjährige Satellitendaten von PVGIS für den Standort {fmt(c['lat'], 2)}° N, {fmt(c['lon'], 2)}° O."),
         (f"Lohnt sich ein Balkonkraftwerk in {name}?",
          f"In einem Haushalt mit {fmt(C.VERBRAUCH_KWH)} kWh Jahresverbrauch nutzt du am Süd-Balkon rund {fmt(r90['used'])} kWh selbst. Bei {fmt(C.STROMPREIS_CT, 1)} ct/kWh "
-         f"spart das etwa {euro(r90['eur'])} im Jahr. Ein Set für {euro(C.SET_PREIS_EUR)} hat sich damit nach etwa {fmt(years, 1)} Jahren bezahlt; die Module halten meist 20 Jahre und länger."),
+         f"spart das etwa {euro(r90['eur'])} im Jahr. Ein Set für {euro(C.SET_PREIS_EUR)} hat sich damit nach etwa {fmt(years, 1)} Jahren bezahlt; die Module halten meist 20 Jahre und länger. "
+         f'Rechenbeispiele nach Verbrauch und Strompreis: <a href="{url("ratgeber/lohnt-sich-balkonkraftwerk/")}">Lohnt sich ein Balkonkraftwerk?</a>'),
         (f"Welcher Monat bringt in {name} den meisten Ertrag?",
          f"Senkrecht nach Süden montiert liefert die Anlage im {MONTHS_LONG[best]} am meisten (etwa {fmt(monthly90[best])} kWh) "
          f"und im {MONTHS_LONG[worst]} am wenigsten (etwa {fmt(monthly90[worst])} kWh). Von November bis Februar bringt die senkrechte Montage hier sogar "
          f"{'mehr' if winter90 > winter35 else 'fast so viel'} als die schräge ({fmt(winter90)} statt {fmt(winter35)} kWh)."),
         (f"Welche Ausrichtung ist in {name} am besten?",
          f"Am meisten bringt {ASPECT_NAMES[ba]} mit {bg}° Neigung: rund {fmt(y[f'{ba}{bg}'] * KWP)} kWh mit {C.SET_WP} Wp. Ost oder West senkrecht liefert etwa "
-         f"{fmt(y['O90'] * KWP)} bis {fmt(y['W90'] * KWP)} kWh, also gut {fmt(y['W90'] / y[f'{ba}{bg}'] * 100)} % davon."),
+         f"{fmt(y['O90'] * KWP)} bis {fmt(y['W90'] * KWP)} kWh, also gut {fmt(y['W90'] / y[f'{ba}{bg}'] * 100)} % davon. "
+         f'Was das bei Ost- oder Westbalkon bedeutet: <a href="{url("ratgeber/balkonkraftwerk-ohne-suedbalkon/")}">Balkonkraftwerk ohne Südbalkon</a>.'),
         ("Muss ich ein Balkonkraftwerk anmelden?",
          "Ja, aber nur noch im Marktstammdatenregister der Bundesnetzagentur. Die frühere Meldung beim Netzbetreiber ist seit dem Solarpaket I entfallen. "
          f'Mehr dazu im <a href="{url("ratgeber/balkonkraftwerk-anmelden/")}">Ratgeber zur Anmeldung</a>.'),

@@ -448,6 +448,7 @@ def articles(x):
 <li>Wechselrichter mit höchstens 800 W und Nachweis der Normkonformität.</li>
 <li>Stecker passend zur Modulleistung (Schuko bis 960 Wp, sonst Wieland).</li>
 <li>Halterung passend zu Geländer und Modulgewicht.</li>
+<li>Rechnung mit 0 % Umsatzsteuer aufbewahren (<a href="{url('ratgeber/balkonkraftwerk-steuer/')}">Steuer-Ratgeber</a>).</li>
 <li>Nach der Montage: Registrierung im Marktstammdatenregister.</li>
 </ol>
 <p class="note">Stand: Oktober 2026. Keine Rechts- oder Elektrikerberatung; maßgeblich sind die Normen, die Angaben der Bundesnetzagentur und dein Netzbetreiber.</p>""",
@@ -612,6 +613,43 @@ def articles(x):
 </dl>
 <p>Willst du wissen, was das alles für deinen Standort bedeutet? Im {more(url('rechner/'), 'Rechner')} stellst du Ausrichtung, Leistung und Verbrauch selbst ein.</p>
 <p class="note">Stand: Oktober 2026. Begriffserklärungen ohne Rechts- oder Elektrikerberatung.</p>""",
+        },
+        {
+            "slug": "balkonkraftwerk-steuer",
+            "title": "Balkonkraftwerk und Steuer: 0 % Mehrwertsteuer, Einkommensteuer, Finanzamt",
+            "desc": "Zahlt man Mehrwertsteuer auf ein Balkonkraftwerk? Muss man den Strom versteuern oder das Finanzamt informieren? Kurz und klar erklärt, mit Rechenbeispiel aus unseren Ertragsdaten.",
+            "html": f"""
+<p class="lead">Beim Balkonkraftwerk kommt die Steuer meist gar nicht vor: Du zahlst beim Kauf keine Mehrwertsteuer, der gesparte Strom ist steuerfrei, und beim Finanzamt musst du dich in aller Regel nicht melden.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li><b>Kauf:</b> Für Photovoltaik-Anlagen gilt seit 2023 der Umsatzsteuersatz 0 % (§ 12 Abs. 3 UStG). Auf der Rechnung steht der Nettopreis „zzgl. 0 % USt“.</li>
+<li><b>Betrieb:</b> Einnahmen aus kleinen Photovoltaik-Anlagen sind einkommensteuerfrei (§ 3 Nr. 72 EStG). Der Strom, den du selbst nutzt, ist ohnehin keine Einnahme.</li>
+<li><b>Anmeldung:</b> Ins Marktstammdatenregister musst du das Gerät eintragen, beim Finanzamt in der Regel nicht.</li></ul></div>
+<h2>Mehrwertsteuer beim Kauf</h2>
+<p>Seit dem 1. Januar 2023 ist die Lieferung und Installation von Photovoltaik-Anlagen und zugehörigen Speichern umsatzsteuerfrei im Sinn des Nullsteuersatzes: Händler stellen 0 % statt 19 % in Rechnung. Das gilt auch für Balkonkraftwerke. Die Preise, die du in Shops siehst, sind deshalb schon die Endpreise.</p>
+<ul>
+<li><b>Prüfe die Rechnung:</b> Es sollte „0 %“ stehen, nicht 19 %. Bewahre sie auf, auch für Garantie, Förderantrag und Versicherung.</li>
+<li><b>Speicher:</b> Auch ein Speicher, der mit der Anlage geliefert wird, fällt unter die Regel.</li>
+<li><b>Gebrauchte Geräte von Privat:</b> Hier fällt ohnehin keine Umsatzsteuer an, wenn der Verkäufer kein Unternehmer ist.</li>
+</ul>
+<p>Zum Vergleich: Würde die Mehrwertsteuer noch gelten, wäre ein {euro(C.SET_PREIS_EUR)}-Set rund {euro(C.SET_PREIS_EUR * 0.19)} teurer. Mit {euro(s35['eur'])} Ersparnis pro Jahr (Süd, 35°) entspricht das etwa {fmt(C.SET_PREIS_EUR * 0.19 / s35['eur'], 1)} Jahren zusätzlicher Amortisation.</p>
+<h2>Einkommensteuer: Strom ist steuerfrei</h2>
+<p>Den Strom, den du selbst verbrauchst, musst du nicht versteuern: Du sparst Stromkosten, aber du hast keine Einnahmen. Aber auch wenn du Strom ins Netz einspeist und dafür eine Vergütung bekommst, sind Einnahmen aus Photovoltaik-Anlagen dieser Größe nach § 3 Nr. 72 EStG steuerfrei. Ein Balkonkraftwerk liegt mit höchstens 2.000 Wp weit unter den Grenzen der Regelung.</p>
+<ul>
+<li>Du musst <b>keine Anlage N/EÜR oder Gewinnermittlung</b> abgeben, wenn du nur steuerfreie Einnahmen hast.</li>
+<li>Eine <b>Gewerbeanmeldung</b> ist für ein privates Balkonkraftwerk nicht nötig.</li>
+<li>Rechne nicht mit einer Vergütung: Die {fmt(s35['pv'] - s35['used'])} kWh, die du bei {C.SET_WP} Wp im Schnitt nicht selbst nutzt, fließen meist unbezahlt ins Netz. Wie viel du selbst verbrauchst, zeigt der <a href="{url('rechner/')}">Rechner</a>.</li>
+</ul>
+<h2>Muss ich das Finanzamt informieren?</h2>
+<p>Bei kleinen, steuerbefreiten Photovoltaik-Anlagen verzichtet die Finanzverwaltung auf den Fragebogen zur steuerlichen Erfassung. Du musst dein Balkonkraftwerk also in der Regel nicht beim Finanzamt melden. Sicherheitshalber gilt: Hast du zusätzlich eine größere Anlage oder gewerbliche Einnahmen, lass dich von einer Steuerberatung oder dem Finanzamt beraten.</p>
+<h2>Was du trotzdem melden musst</h2>
+<ol>
+<li><b>Marktstammdatenregister:</b> Eintragung innerhalb eines Monats nach Inbetriebnahme, kostenlos und in wenigen Minuten erledigt. Schritt für Schritt: <a href="{url('ratgeber/balkonkraftwerk-anmelden/')}">Balkonkraftwerk anmelden</a>.</li>
+<li><b>Vermieter oder Eigentümergemeinschaft:</b> Keine Steuerfrage, aber Pflicht vor der Montage: <a href="{url('ratgeber/balkonkraftwerk-mieter/')}">Balkonkraftwerk als Mieter</a>.</li>
+<li><b>Förderprogramme:</b> Ein Zuschuss ist steuerlich meist unkritisch, hat aber eigene Bedingungen: <a href="{url('ratgeber/balkonkraftwerk-foerderung/')}">Förderung</a>.</li>
+</ol>
+<h2>Weiter planen</h2>
+<p>Die Steuer ändert die Rechnung kaum, wichtiger sind Ausrichtung, Verschattung und dein Verbrauch. Die Rechnung zur Amortisation findest du im Ratgeber <a href="{url('ratgeber/lohnt-sich-balkonkraftwerk/')}">Lohnt sich ein Balkonkraftwerk?</a>; vor dem Kauf hilft die <a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Checkliste</a>.</p>
+<p class="note">Stand: November 2026. Keine Steuerberatung. Rechtsgrundlagen: § 12 Abs. 3 UStG und § 3 Nr. 72 EStG auf <a href="https://www.gesetze-im-internet.de" rel="noopener">gesetze-im-internet.de</a>; Hinweise des <a href="https://www.bundesfinanzministerium.de" rel="noopener">Bundesfinanzministeriums</a> zu Photovoltaikanlagen. Maßgeblich sind der aktuelle Gesetzeswortlaut und die Auskunft deines Finanzamts.</p>""",
         },
     ]
 

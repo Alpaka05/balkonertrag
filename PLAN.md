@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 16.11.2026 | Neuer Ratgeber „Balkonkraftwerk und Steuer“ (0 % USt, Einkommensteuerbefreiung, Finanzamt, MaStR bleibt Pflicht; nur Kernaussagen, BMF-Schreiben-Datum bewusst weggelassen, da Primärquellen in der Sandbox gesperrt waren), verlinkt aus Kauf-Checkliste |
 | 12.11.2026 | Neuer Ratgeber „Balkonkraftwerk ohne Südbalkon“ (Ersparnis und Amortisation je Himmelsrichtung, 35°/90°, Ost/West kombiniert, mehr Module bei schwacher Ausrichtung; Nord bewusst ohne Zahlen, da keine Daten); Links aus FAQ „Lohnt sich“/„Ausrichtung“ auf allen Stadtseiten (962 Seiten) und aus dem Lohnt-sich-Ratgeber |
 | 09.11.2026 | Neuer Ratgeber „Lohnt sich ein Balkonkraftwerk?“ (Amortisation nach Verbrauch × Ausrichtung, Strompreis-Sensitivität, Standort best/worst, Wann es sich nicht lohnt; alles aus der Simulation), verlinkt im Ratgeber-Index |
 | 05.11.2026 | Neuer Ratgeber „Balkonkraftwerk Halterung und Montage“ (Geländer/Aufständerung/Wand, Ertragstabelle je Neigung aus der Simulation, Sicherheits-Checkliste Wind/Absturz, Haftung), verlinkt im Ratgeber-Index |
@@ -45,6 +46,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 ## Nächste Ausbaustufen
 
+- Steuer-Ratgeber gegen Primärquellen (§ 12 Abs. 3 UStG, § 3 Nr. 72 EStG, BMF-FAQ) gegenprüfen, sobald gesetze-im-internet.de/bundesfinanzministerium.de erreichbar sind
 - Nord-Ausrichtung (azimuth 180) in PVGIS nachladen, um Nordbalkon im Ratgeber „ohne Südbalkon“ mit Zahlen zu belegen
 - Startseite: Teaser auf „Lohnt sich?“ und „Ohne Südbalkon“
 - Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich

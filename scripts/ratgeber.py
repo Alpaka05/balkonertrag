@@ -107,6 +107,25 @@ def articles(x):
     os_big_w = run("W35", 1600)
     os_big_s = run("S35", 1600)
 
+    # Wie viel Strom erzeugt ein Balkonkraftwerk: Tag/Monat/Jahr, nach Leistung
+    MON = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]
+    DAYS_ = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+    st_rows = "".join(
+        f"<tr><th scope=row>{MON[i]}</th><td class=num>{fmt(nm['S35'][i] * KWP)}</td><td class=num>{fmt(nm['S35'][i] * KWP / DAYS_[i], 1)}</td>"
+        f"<td class=num>{fmt(nm['S90'][i] * KWP)}</td><td class=num>{fmt(nm['S90'][i] * KWP / DAYS_[i], 1)}</td></tr>"
+        for i in range(12))
+    st_wp = {wp: {k: run(k, wp) for k in ("S35", "S90")} for wp in (600, 900, 1200, 2000)}
+    st_wp_rows = "".join(
+        f"<tr><th scope=row>{wp} Wp</th><td class=num>{fmt(n['S35'] * wp / 1000)} kWh</td><td class=num>{fmt(st_wp[wp]['S35']['pv'])} kWh</td>"
+        f"<td class=num>{fmt(n['S90'] * wp / 1000)} kWh</td><td class=num>{fmt(st_wp[wp]['S90']['pv'])} kWh</td></tr>"
+        for wp in (600, 900, 1200, 2000))
+    st_sum = sum(nm["S35"][i] * KWP for i in (4, 5, 6, 7))
+    st_day_jun = nm["S35"][5] * KWP / 30
+    st_day_dec = nm["S35"][11] * KWP / 31
+    st_day_dec90 = nm["S90"][11] * KWP / 31
+    st_fridge = 300  # kWh/Jahr, grober Richtwert
+    st_s35 = run("S35", C.SET_WP)
+
     speicher_extra = s90b["eur"] - s90["eur"]
     big_extra = big_b["eur"] - big[2000]["S35"]["eur"]
 
@@ -650,6 +669,42 @@ def articles(x):
 <h2>Weiter planen</h2>
 <p>Die Steuer ändert die Rechnung kaum, wichtiger sind Ausrichtung, Verschattung und dein Verbrauch. Die Rechnung zur Amortisation findest du im Ratgeber <a href="{url('ratgeber/lohnt-sich-balkonkraftwerk/')}">Lohnt sich ein Balkonkraftwerk?</a>; vor dem Kauf hilft die <a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Checkliste</a>.</p>
 <p class="note">Stand: November 2026. Keine Steuerberatung. Rechtsgrundlagen: § 12 Abs. 3 UStG und § 3 Nr. 72 EStG auf <a href="https://www.gesetze-im-internet.de" rel="noopener">gesetze-im-internet.de</a>; Hinweise des <a href="https://www.bundesfinanzministerium.de" rel="noopener">Bundesfinanzministeriums</a> zu Photovoltaikanlagen. Maßgeblich sind der aktuelle Gesetzeswortlaut und die Auskunft deines Finanzamts.</p>""",
+        },
+        {
+            "slug": "wie-viel-strom-balkonkraftwerk",
+            "title": "Wie viel Strom erzeugt ein Balkonkraftwerk? kWh pro Tag, Monat und Jahr",
+            "desc": f"Ein Balkonkraftwerk mit {C.SET_WP} Wp erzeugt in Deutschland rund {fmt(n['S35'] * KWP)} kWh pro Jahr. Hier siehst du den Ertrag pro Monat und Tag, nach Leistung und Montage, berechnet aus PVGIS-Daten von {len(cy)} Städten.",
+            "html": f"""
+<p class="lead">Ein Balkonkraftwerk mit {C.SET_WP} Wp erzeugt in Deutschland im Schnitt rund {fmt(n['S35'] * KWP)} kWh pro Jahr, wenn es nach Süden schräg aufgeständert ist, und rund {fmt(n['S90'] * KWP)} kWh, wenn es senkrecht am Geländer hängt. Im Juni sind das im Mittel etwa {fmt(st_day_jun, 1)} kWh pro Tag, im Dezember nur etwa {fmt(st_day_dec, 1)} kWh.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Jahresertrag ({C.SET_WP} Wp, Süd, ohne Schatten): {fmt(n['S35'] * KWP)} kWh bei 35°, {fmt(n['S90'] * KWP)} kWh bei 90°. Das entspricht etwa {fmt(n['S35'])} kWh pro installiertem kWp.</li>
+<li>Von Mai bis August entstehen bei 35° rund {fmt(st_sum / (n['S35'] * KWP) * 100)} % der Jahresmenge, im Dezember nur rund {fmt(nm['S35'][11] / sum(nm['S35']) * 100, 1)} %.</li>
+<li>Mehr Module bringen nicht beliebig mehr Strom ins Haus: Der Wechselrichter begrenzt die Einspeisung auf 800 VA, und du nutzt nur, was du gleichzeitig verbrauchst.</li></ul></div>
+<h2>Ertrag pro Monat und pro Tag</h2>
+<p>Durchschnitt aus {len(cy)} deutschen Städten für ein Set mit {C.SET_WP} Wp, Ausrichtung Süd, ohne Verschattung. Ein einzelner Tag schwankt stark: An bewölkten Wintertagen kommt nur ein Bruchteil des Durchschnitts zusammen, an klaren Sommertagen deutlich mehr.</p>
+<div class="scroll"><table><thead><tr><th rowspan=2>Monat</th><th class=num colspan=2>35° aufgeständert</th><th class=num colspan=2>90° Geländer</th></tr><tr><th class=num>kWh/Monat</th><th class=num>kWh/Tag</th><th class=num>kWh/Monat</th><th class=num>kWh/Tag</th></tr></thead><tbody>{st_rows}</tbody></table></div>
+<p>Auffällig: Im Dezember bringt die senkrechte Montage mit {fmt(st_day_dec90, 1)} kWh pro Tag {'mehr als' if st_day_dec90 > st_day_dec else 'etwa so viel wie'} die schräge, weil die tief stehende Sonne fast frontal auf die Module trifft. Mehr dazu: {more(url('ratgeber/balkonkraftwerk-winter/'), 'Balkonkraftwerk im Winter')}</p>
+<h2>Ertrag nach Leistung</h2>
+<p>Modulleistung (Wp) und Wechselrichterleistung sind zwei verschiedene Werte. Die Module können mehr liefern, als der Wechselrichter einspeisen darf; ab 800 VA wird gekappt. Die Tabelle zeigt für Süd, ohne Schatten, was die Module theoretisch erzeugen und was nach der Begrenzung tatsächlich ins Hausnetz gelangt (Simulation mit Standardlastprofil, <a href="{url('methodik/')}">Methodik</a>).</p>
+<div class="scroll"><table><thead><tr><th rowspan=2>Modulleistung</th><th class=num colspan=2>35° aufgeständert</th><th class=num colspan=2>90° Geländer</th></tr><tr><th class=num>Module</th><th class=num>nach Wechselrichter</th><th class=num>Module</th><th class=num>nach Wechselrichter</th></tr></thead><tbody>{st_wp_rows}</tbody></table></div>
+<p>Je steiler die Montage, desto flacher die Leistungsspitze und desto weniger wird gekappt. Ob sich mehr Module lohnen, steht im Ratgeber <a href="{url('ratgeber/2000-watt/')}">2.000-Watt-Balkonkraftwerk</a>.</p>
+<h2>Erzeugt ist nicht gespart</h2>
+<p>Für deine Stromrechnung zählt nur der Strom, den du selbst verbrauchst. Beim {C.SET_WP}-Wp-Set sind das bei Süd, 35° und {fmt(V)} kWh Jahresverbrauch etwa {fmt(st_s35['used'])} kWh von {fmt(st_s35['pv'])} kWh Erzeugung ({fmt(st_s35['used'] / st_s35['pv'] * 100)} %). Das spart bei {C.STROMPREIS_CT} ct/kWh rund {euro(st_s35['eur'])} pro Jahr. Zur Einordnung: Ein Kühlschrank braucht je nach Alter grob {st_fridge} kWh im Jahr. Wie sich das für dich rechnet: <a href="{url('ratgeber/lohnt-sich-balkonkraftwerk/')}">Lohnt sich ein Balkonkraftwerk?</a></p>
+<h2>Was den Ertrag verändert</h2>
+<ul>
+<li><b>Ausrichtung und Neigung:</b> Ost oder West senkrecht liefert nur etwa {fmt(n['W90'] / n['S35'] * 100)} % eines Süd-Moduls bei 35° (<a href="{url('ratgeber/ausrichtung-neigung/')}">Ausrichtung und Neigung</a>).</li>
+<li><b>Standort:</b> Zwischen dem sonnenreichsten ({best}) und dem sonnenärmsten ({worst}) Ort liegen bei Süd, 35° rund {fmt((cy[best]['y']['S35'] / cy[worst]['y']['S35'] - 1) * 100)} %. Werte für deine Stadt: {more(url('staedte/'), 'Stadt auswählen')}</li>
+<li><b>Verschattung:</b> Schon teilweiser Schatten senkt den Ertrag deutlich (<a href="{url('ratgeber/balkonkraftwerk-verschattung/')}">Verschattung</a>).</li>
+<li><b>Wetter und Alterung:</b> Einzelne Jahre weichen vom langjährigen Mittel ab; Module verlieren mit der Zeit langsam an Leistung. Die Werte hier sind Modellwerte, keine Garantie.</li>
+</ul>
+<h2>So prüfst du deinen eigenen Ertrag</h2>
+<ol>
+<li>Lies den Ertrag am Wechselrichter, in der Hersteller-App oder an einer Zwischensteckdose mit Messfunktion ab und notiere den Stand an einem festen Tag im Monat.</li>
+<li>Vergleiche den Monatswert mit der Tabelle oben. Rechne dazu um: Deine Wp geteilt durch {C.SET_WP}, mal Tabellenwert.</li>
+<li>Liegt der Wert dauerhaft deutlich darunter, prüfe Schatten, Ausrichtung und Anschluss.</li>
+</ol>
+<p>Mit deinen eigenen Werten rechnest du im {more(url('rechner/'), 'Ertragsrechner')}.</p>
+<p class="note">Stand November 2026. Modellwerte aus PVGIS-Strahlungsdaten (Europäische Kommission) und Stundensimulation; Durchschnitt über {len(cy)} Städte, ohne Verschattung. Der Ertrag einzelner Tage und Jahre weicht davon ab.</p>""",
         },
     ]
 

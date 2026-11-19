@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 19.11.2026 | Neuer Ratgeber „Wie viel Strom erzeugt ein Balkonkraftwerk?“ (kWh pro Monat/Tag, nach Leistung 600–2.000 Wp mit Wechselrichter-Kappung, Erzeugt-vs-gespart, Selbstcheck; alles aus PVGIS und Simulation, keine externen Fakten) |
 | 16.11.2026 | Neuer Ratgeber „Balkonkraftwerk und Steuer“ (0 % USt, Einkommensteuerbefreiung, Finanzamt, MaStR bleibt Pflicht; nur Kernaussagen, BMF-Schreiben-Datum bewusst weggelassen, da Primärquellen in der Sandbox gesperrt waren), verlinkt aus Kauf-Checkliste |
 | 12.11.2026 | Neuer Ratgeber „Balkonkraftwerk ohne Südbalkon“ (Ersparnis und Amortisation je Himmelsrichtung, 35°/90°, Ost/West kombiniert, mehr Module bei schwacher Ausrichtung; Nord bewusst ohne Zahlen, da keine Daten); Links aus FAQ „Lohnt sich“/„Ausrichtung“ auf allen Stadtseiten (962 Seiten) und aus dem Lohnt-sich-Ratgeber |
 | 09.11.2026 | Neuer Ratgeber „Lohnt sich ein Balkonkraftwerk?“ (Amortisation nach Verbrauch × Ausrichtung, Strompreis-Sensitivität, Standort best/worst, Wann es sich nicht lohnt; alles aus der Simulation), verlinkt im Ratgeber-Index |
@@ -46,6 +47,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 ## Nächste Ausbaustufen
 
+- Neuen Ratgeber „Wie viel Strom“ aus Startseite und Stadtseiten-FAQ („Wie viel Strom erzeugt…“) verlinken; Startseiten-Teaser auf „Lohnt sich?“, „Ohne Südbalkon“ und „Wie viel Strom“
 - Steuer-Ratgeber gegen Primärquellen (§ 12 Abs. 3 UStG, § 3 Nr. 72 EStG, BMF-FAQ) gegenprüfen, sobald gesetze-im-internet.de/bundesfinanzministerium.de erreichbar sind
 - Nord-Ausrichtung (azimuth 180) in PVGIS nachladen, um Nordbalkon im Ratgeber „ohne Südbalkon“ mit Zahlen zu belegen
 - Startseite: Teaser auf „Lohnt sich?“ und „Ohne Südbalkon“

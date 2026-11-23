@@ -295,7 +295,8 @@ def build_city(name, c, ctx):
     faq = [
         (f"Wie viel Strom erzeugt ein Balkonkraftwerk in {name}?",
          f"Ein typisches Set mit {C.SET_WP} Wp Modulleistung erzeugt in {name} senkrecht am Balkongeländer nach Süden etwa {fmt(kwh90)} kWh pro Jahr, "
-         f"schräg aufgeständert (35°) etwa {fmt(kwh35)} kWh. Grundlage sind langjährige Satellitendaten von PVGIS für den Standort {fmt(c['lat'], 2)}° N, {fmt(c['lon'], 2)}° O."),
+         f"schräg aufgeständert (35°) etwa {fmt(kwh35)} kWh. Grundlage sind langjährige Satellitendaten von PVGIS für den Standort {fmt(c['lat'], 2)}° N, {fmt(c['lon'], 2)}° O. "
+         f'Ertrag pro Monat und Tag sowie nach Leistung: <a href="{url("ratgeber/wie-viel-strom-balkonkraftwerk/")}">Wie viel Strom erzeugt ein Balkonkraftwerk?</a>'),
         (f"Lohnt sich ein Balkonkraftwerk in {name}?",
          f"In einem Haushalt mit {fmt(C.VERBRAUCH_KWH)} kWh Jahresverbrauch nutzt du am Süd-Balkon rund {fmt(r90['used'])} kWh selbst. Bei {fmt(C.STROMPREIS_CT, 1)} ct/kWh "
          f"spart das etwa {euro(r90['eur'])} im Jahr. Ein Set für {euro(C.SET_PREIS_EUR)} hat sich damit nach etwa {fmt(years, 1)} Jahren bezahlt; die Module halten meist 20 Jahre und länger. "
@@ -627,6 +628,9 @@ Am sonnigsten ist <a href="{url('stadt/' + slug(top[0]) + '/')}">{e(top[0])}</a>
 
     # Startseite
     top10 = by_yield[:10]
+    pick = ("lohnt-sich-balkonkraftwerk", "balkonkraftwerk-ohne-suedbalkon", "wie-viel-strom-balkonkraftwerk", "balkonkraftwerk-anmelden")
+    teasers = "".join(f'<div class="card"><h3><a href="{url("ratgeber/" + a["slug"] + "/")}">{e(a["title"])}</a></h3><p class="small">{e(a["desc"])}</p></div>'
+                      for k in pick for a in arts if a["slug"] == k)
     body = f"""<section class="hero">
 <h1>Wie viel bringt ein Balkonkraftwerk bei dir?</h1>
 <p class="lead">Ertrag, Eigenverbrauch und Ersparnis für {len(cities)} Städte in Deutschland, für jede Ausrichtung und Neigung. Kostenlos, ohne Anmeldung, ohne Tracking.</p>
@@ -643,6 +647,7 @@ Am sonnigsten ist <a href="{url('stadt/' + slug(top[0]) + '/')}">{e(top[0])}</a>
 <li><a href="{url('vermieter-antrag/')}">Antrag an den Vermieter</a>: fertiger Brief in zwei Minuten</li>
 {''.join(f'<li><a href="{url("ratgeber/" + a["slug"] + "/")}">{e(a["title"])}</a></li>' for a in arts)}</ul></div>
 </section>
+<section><h2>Beliebte Ratgeber</h2><div class="grid2">{teasers}</div></section>
 <section><h2>Große Städte</h2><ul class="cols">{''.join(f'<li><a href="{url("stadt/" + slug(n) + "/")}">{e(n)}</a></li>' for n in big[:45])}</ul></section>"""
     urls.insert(0, page("", f"{C.SITE_NAME}: Balkonkraftwerk-Ertrag für deine Stadt berechnen",
                         f"Wie viel Strom erzeugt ein Balkonkraftwerk in deiner Stadt? Ertrag, Eigenverbrauch und Amortisation für {len(cities)} Städte, berechnet mit PVGIS-Wetterdaten.",

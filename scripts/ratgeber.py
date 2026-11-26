@@ -126,6 +126,36 @@ def articles(x):
     st_fridge = 300  # kWh/Jahr, grober Richtwert
     st_s35 = run("S35", C.SET_WP)
 
+    # Eigenverbrauch erhöhen: Teil des Abendverbrauchs (18-22 Uhr) in die Mittagsstunden (11-14 Uhr) verlegen
+    def run_shift(kwh, key="S35", wp=C.SET_WP, annual=V):
+        orig = model.load
+        eve = [h for h in range(8760) if 18 <= h % 24 <= 22]
+        mid = [h for h in range(8760) if 11 <= h % 24 <= 14]
+        move = kwh / annual * 1e6
+        sub = move / sum(orig[h] for h in eve)
+        new = list(orig)
+        for h in eve:
+            new[h] = orig[h] * (1 - sub)
+        for h in mid:
+            new[h] = orig[h] + move / len(mid)
+        model.load = new
+        try:
+            return run(key, wp, 0, annual)
+        finally:
+            model.load = orig
+
+    ev_shifts = (0, 200, 400, 700)
+    ev_runs = {k: run_shift(k) for k in ev_shifts}
+    ev_rows = "".join(
+        f"<tr><th scope=row>{'Ohne Verschiebung' if k == 0 else fmt(k) + ' kWh verlegt'}</th><td class=num>{fmt(r['used'])} kWh</td>"
+        f"<td class=num>{fmt(r['used'] / r['pv'] * 100)} %</td><td class=num>{euro(r['eur'])}</td><td class=num>{('+' + euro(r['eur'] - ev_runs[0]['eur'])) if k else '–'}</td></tr>"
+        for k, r in ev_runs.items())
+    ev_cons = {v: run("S35", C.SET_WP, 0, v) for v in (1500, 2500, 4000)}
+    ev_cons_rows = "".join(
+        f"<tr><th scope=row>{fmt(v)} kWh</th><td class=num>{fmt(r['used'] / r['pv'] * 100)} %</td><td class=num>{fmt(r['used'])} kWh</td></tr>" for v, r in ev_cons.items())
+    ev_sp = run("S35", C.SET_WP, 2)
+    ev_sp_extra = ev_sp["eur"] - ev_runs[0]["eur"]
+
     speicher_extra = s90b["eur"] - s90["eur"]
     big_extra = big_b["eur"] - big[2000]["S35"]["eur"]
 
@@ -503,7 +533,7 @@ def articles(x):
 <h2>So bringst du die Amortisation nach vorn</h2>
 <ol>
 <li>Einen Platz mit wenig Schatten wählen; das bringt meist mehr als jede Zusatzausgabe.</li>
-<li>Verbrauch in die Mittagsstunden legen: Waschmaschine, Spülmaschine und Trockner tagsüber laufen lassen.</li>
+<li>Verbrauch in die Mittagsstunden legen: Waschmaschine, Spülmaschine und Trockner tagsüber laufen lassen (<a href="{url('ratgeber/eigenverbrauch-balkonkraftwerk-erhoehen/')}">Eigenverbrauch erhöhen</a>).</li>
 <li>Preise vergleichen und auf Herstellerfreigaben achten (<a href="{url('ratgeber/balkonkraftwerk-kaufen/')}">Kauf-Checkliste</a>).</li>
 <li>Vorher prüfen, ob dein Ort einen Zuschuss zahlt (<a href="{url('ratgeber/balkonkraftwerk-foerderung/')}">Förderung</a>).</li>
 </ol>
@@ -705,6 +735,39 @@ def articles(x):
 </ol>
 <p>Mit deinen eigenen Werten rechnest du im {more(url('rechner/'), 'Ertragsrechner')}.</p>
 <p class="note">Stand November 2026. Modellwerte aus PVGIS-Strahlungsdaten (Europäische Kommission) und Stundensimulation; Durchschnitt über {len(cy)} Städte, ohne Verschattung. Der Ertrag einzelner Tage und Jahre weicht davon ab.</p>""",
+        },
+        {
+            "slug": "eigenverbrauch-balkonkraftwerk-erhoehen",
+            "title": "Eigenverbrauch beim Balkonkraftwerk erhöhen: 7 Tipps mit Rechenbeispiel",
+            "desc": f"Wie nutzt du mehr von deinem Solarstrom selbst? Waschmaschine tagsüber, Grundlast, Ausrichtung, Speicher: Was es bringt, berechnet mit Stundensimulation und Standardlastprofil.",
+            "html": f"""
+<p class="lead">Ein Balkonkraftwerk spart nur den Strom, den du gleichzeitig verbrauchst. Im Beispiel ({C.SET_WP} Wp, Süd, 35°, {fmt(V)} kWh Verbrauch) sind das {fmt(ev_runs[0]['used'] / ev_runs[0]['pv'] * 100)} % der Erzeugung. Wer {fmt(ev_shifts[2])} kWh Abendverbrauch in die Mittagsstunden verlegt, kommt auf {fmt(ev_runs[ev_shifts[2]]['used'] / ev_runs[ev_shifts[2]]['pv'] * 100)} % und spart rund {euro(ev_runs[ev_shifts[2]]['eur'] - ev_runs[0]['eur'])} mehr pro Jahr.</p>
+<div class="box"><h2>Das Wichtigste in Kürze</h2><ul>
+<li>Der Strom vom Balkon ist am wertvollsten, wenn du ihn selbst nutzt: Er ersetzt Strom zum vollen Preis ({C.STROMPREIS_CT} ct/kWh). Was ins Netz geht, wird in der Praxis nicht vergütet.</li>
+<li>Der größte Hebel ohne Kosten: Verbrauch in die Mittagsstunden legen (Waschen, Spülen, Trocknen, Staubsaugen, Laden).</li>
+<li>Ein Speicher erhöht den Eigenverbrauch am stärksten, bringt im Beispiel aber nur etwa {euro(ev_sp_extra)} pro Jahr mehr und kostet {euro(C.SPEICHER_PREIS_EUR)} (<a href="{url('ratgeber/speicher-lohnt-sich/')}">Speicher-Ratgeber</a>).</li></ul></div>
+<h2>Warum Eigenverbrauch zählt</h2>
+<p>Die Sonne scheint, wenn du bei der Arbeit bist; dein Verbrauch ist abends am höchsten. Ein Teil des Solarstroms trifft deshalb auf keinen Verbraucher und fließt ins Netz. Dazu kommt die 800-W-Grenze des Wechselrichters bei Mittagsspitzen. Wie viel du tatsächlich selbst nutzt, hängt vom Jahresverbrauch ab (Süd, 35°, {C.SET_WP} Wp, Standardlastprofil H25):</p>
+<div class="scroll"><table><thead><tr><th>Jahresverbrauch</th><th class=num>Eigenverbrauchsanteil</th><th class=num>Eigennutzung pro Jahr</th></tr></thead><tbody>{ev_cons_rows}</tbody></table></div>
+<p>Haushalte mit hohem Verbrauch, Homeoffice oder Dauerlasten nutzen mehr. Wie sich das auf die Amortisation auswirkt: {more(url('ratgeber/lohnt-sich-balkonkraftwerk/'), 'Lohnt sich ein Balkonkraftwerk?')}</p>
+<h2>Tipp 1: Große Verbraucher tagsüber laufen lassen</h2>
+<p>Waschmaschine, Spülmaschine und Trockner brauchen viel Strom auf einmal und lassen sich meist verschieben. Die Tabelle zeigt, was es bringt, wenn du einen Teil des Abendverbrauchs (18–23 Uhr) auf die Zeit von 11 bis 15 Uhr verlegst:</p>
+<div class="scroll"><table><thead><tr><th>Szenario</th><th class=num>Eigennutzung</th><th class=num>Anteil</th><th class=num>Ersparnis/Jahr</th><th class=num>Mehr als vorher</th></tr></thead><tbody>{ev_rows}</tbody></table></div>
+<p>Das ist eine Modellrechnung: Wie viel Verbrauch du wirklich verschieben kannst, weißt nur du. Wichtig ist das Wetter. Starten die Geräte an einem bewölkten Tag, bringt das Verschieben wenig; Zeitvorwahl und Smart-Home-Steckdosen helfen nur an sonnigen Tagen. Wer zu Hause arbeitet, profitiert ohnehin.</p>
+<h2>Tipp 2: Grundlast nutzen, nicht versuchen zu senken</h2>
+<p>Router, Kühlschrank, Gefrierschrank, Standby-Geräte: Diese Dauerlast läuft rund um die Uhr und nimmt tagsüber automatisch Solarstrom ab. Unnötige Verbraucher abzuschalten spart trotzdem Geld, aber nur den Strom, den du ohnehin zum vollen Preis bezahlen würdest. Beides hilft, es ist kein Widerspruch.</p>
+<h2>Tipp 3: Montage nach deinem Tagesablauf wählen</h2>
+<p>Eine Westausrichtung liefert mehr am Nachmittag und Abend, wenn du eher zu Hause bist, Ost mehr am Vormittag. Süd liefert vor allem um die Mittagszeit. Eine flachere Leistungskurve passt oft besser zu einem Alltag, in dem tagsüber wenig läuft. Zahlen für alle Himmelsrichtungen: {more(url('ratgeber/balkonkraftwerk-ohne-suedbalkon/'), 'Balkonkraftwerk ohne Südbalkon')}</p>
+<h2>Tipp 4: Nicht zu viele Module für zu wenig Verbrauch</h2>
+<p>Mehr Module erzeugen mehr Strom, aber nicht mehr nutzbaren Strom, wenn tagsüber wenig läuft. Bei kleinem Verbrauch reicht oft ein Set mit 600 bis {fmt(C.SET_WP)} Wp. Ab wann sich mehr lohnt: {more(url('ratgeber/2000-watt/'), '2.000-Watt-Balkonkraftwerk')}</p>
+<h2>Tipp 5: Schatten vermeiden</h2>
+<p>Verschattete Module liefern weniger, genau zu den Zeiten, in denen du den Strom am besten nutzen könntest. Mehr dazu und ein Prüfschema: {more(url('ratgeber/balkonkraftwerk-verschattung/'), 'Verschattung')}</p>
+<h2>Tipp 6: Messen, wo der Strom hingeht</h2>
+<p>Eine Zwischensteckdose mit Messfunktion zeigt, welche Geräte viel verbrauchen und wann sie laufen. Die Ablesung am Wechselrichter oder in der Hersteller-App zeigt dir, wann viel Solarstrom entsteht. Beides zusammen verrät dir, welche Verbraucher du verschieben solltest. Eine Messung vor dem Kauf eines Speichers spart oft die Investition.</p>
+<h2>Tipp 7: Speicher nur nach Rechnung</h2>
+<p>Ein Speicher hebt den Eigenverbrauch deutlich: Im Beispiel von {fmt(ev_runs[0]['used'] / ev_runs[0]['pv'] * 100)} % auf {fmt(ev_sp['used'] / ev_sp['pv'] * 100)} % mit 2 kWh Kapazität. Das sind {euro(ev_sp_extra)} pro Jahr mehr, bei {euro(C.SPEICHER_PREIS_EUR)} Aufpreis. Die Verschiebung des Verbrauchs ist deutlich günstiger. Mit deinen Zahlen rechnest du im {more(url('speicher-rechner/'), 'Speicher-Rechner')}.</p>
+<p>Alle Szenarien kannst du im {more(url('rechner/'), 'Ertragsrechner')} mit deinem Verbrauch nachstellen.</p>
+<p class="note">Stand November 2026. Modellrechnung mit PVGIS-Daten (Durchschnitt über {len(cy)} Städte), Standardlastprofil H25 und den Annahmen der <a href="{url('methodik/')}">Methodik</a>. Die Verschiebe-Szenarien verlegen den Verbrauch rechnerisch von 18–23 Uhr gleichmäßig auf 11–15 Uhr; echte Haushalte und Wetter weichen davon ab.</p>""",
         },
     ]
 

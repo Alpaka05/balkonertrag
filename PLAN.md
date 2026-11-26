@@ -31,6 +31,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 | Datum | Stand |
 |---|---|
+| 26.11.2026 | Neuer Ratgeber „Eigenverbrauch erhöhen: 7 Tipps mit Rechenbeispiel“ (Eigenverbrauchsanteil nach Verbrauch, Szenario Abendverbrauch auf Mittag verlegen, Speicher-Vergleich; alles aus Simulation, keine externen Fakten); verlinkt aus „Lohnt sich“ |
 | 23.11.2026 | Interne Verlinkung: Ratgeber „Wie viel Strom“ aus der FAQ aller Stadtseiten verlinkt; Startseite mit neuem Block „Beliebte Ratgeber“ (Teaser auf Lohnt sich, Ohne Südbalkon, Wie viel Strom, Anmelden) |
 | 19.11.2026 | Neuer Ratgeber „Wie viel Strom erzeugt ein Balkonkraftwerk?“ (kWh pro Monat/Tag, nach Leistung 600–2.000 Wp mit Wechselrichter-Kappung, Erzeugt-vs-gespart, Selbstcheck; alles aus PVGIS und Simulation, keine externen Fakten) |
 | 16.11.2026 | Neuer Ratgeber „Balkonkraftwerk und Steuer“ (0 % USt, Einkommensteuerbefreiung, Finanzamt, MaStR bleibt Pflicht; nur Kernaussagen, BMF-Schreiben-Datum bewusst weggelassen, da Primärquellen in der Sandbox gesperrt waren), verlinkt aus Kauf-Checkliste |
@@ -48,6 +49,7 @@ Ich kann diese Schritte nicht für dich erledigen: Sie brauchen deine Identität
 
 ## Nächste Ausbaustufen
 
+- Ratgeber „Balkonkraftwerk Stromzähler/Zählerwechsel“ und „Einspeisung/Einspeisevergütung“ nur mit Primärquellen (Bundesnetzagentur, Verbraucherzentrale)
 - Steuer-Ratgeber gegen Primärquellen (§ 12 Abs. 3 UStG, § 3 Nr. 72 EStG, BMF-FAQ) gegenprüfen, sobald gesetze-im-internet.de/bundesfinanzministerium.de erreichbar sind
 - Nord-Ausrichtung (azimuth 180) in PVGIS nachladen, um Nordbalkon im Ratgeber „ohne Südbalkon“ mit Zahlen zu belegen
 - Förderung pro Stadt/Bundesland nur mit geprüften Primärquellen (Stadt-Websites) ergänzen, mit Stand-Datum – falls Zugriff möglich
